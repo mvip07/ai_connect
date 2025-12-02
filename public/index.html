@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Ai Connect</title>
+		<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+		<link href="https://fonts.googleapis.com" rel="preconnect" />
+		<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+		<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="root"></div>
+
+		<script id="tailwind-config">
+			tailwind.config = {
+				darkMode: 'class',
+				theme: {
+					extend: {
+						colors: {
+							primary: '#0a85ff',
+							'background-light': '#f5f7f8',
+							'background-dark': '#0f1923',
+							secondary: '#1D1F23',
+							background: {
+								DEFAULT: '#F5F9FF',
+								light: '#F5F9FF',
+							},
+							accent: '#B8D7FF',
+							success: '#15C39A',
+							warning: '#F9B234',
+							error: '#F25050',
+							'text-primary': '#1D1F23',
+							'text-secondary': '#4A5568',
+							'border-color': '#EAECEF',
+							card: '#FFFFFF',
+							'card-border': '#E0E7FF',
+							primary2: '#0A84FF',
+							'text-body': '#5A6474',
+						},
+						fontFamily: {
+							display: ['Space Grotesk'],
+						},
+						borderRadius: {
+							DEFAULT: '0.5rem',
+							lg: '1rem',
+							xl: '1.5rem',
+							full: '9999px',
+						},
+						// fontFamily: {
+						// 	display: ['Space Grotesk', 'sans-serif'],
+						// },
+						boxShadow: {
+							soft: '0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -2px rgba(0, 0, 0, 0.03)',
+							soft2: '0 4px 14px 0 rgba(184, 215, 255, 0.4)',
+							'soft-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.03), 0 4px 6px -4px rgba(0, 0, 0, 0.03)',
+						},					
+					},
+				},
+			}
+		</script>
+	</body>
+</html>
