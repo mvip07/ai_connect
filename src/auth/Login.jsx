@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useLogin } from '../hooks/useLogin'
-import { useNavigate } from 'react-router-dom'
 import { useAuthRedirect } from '../hooks/useAuthRedirect'
 
 export default function Login() {
@@ -51,15 +50,6 @@ export default function Login() {
 								</button>
 							</div>
 						</form>
-
-						<div className="pt-8 text-center">
-							<p className="text-secondary/60 text-base font-normal">
-								Don't have an account?{' '}
-								<a className="text-primary font-medium hover:underline" href="#">
-									Sign Up
-								</a>
-							</p>
-						</div>
 					</div>
 				</div>
 			</div>

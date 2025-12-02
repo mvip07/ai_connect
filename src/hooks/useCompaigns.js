@@ -49,19 +49,21 @@ export const useCampaigns = () => {
 
 	const handleCreate = useCallback(
 		async (campaign) => {
-			setLoading(true)
-			try {
-				await campaignService.create(campaign)
-				if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-					fetchCampaigns()
-				} else {
-					fetchCampaignsUser()
+			if (['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role)) {
+				setLoading(true)
+				try {
+					await campaignService.create(campaign)
+					if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
+						fetchCampaigns()
+					} else {
+						fetchCampaignsUser()
+					}
+					notify('success', 'Campaign yaratildi!')
+				} catch (err) {
+					handleApiError(err, 'Campaign yaratishda xatolik!')
+				} finally {
+					setLoading(false)
 				}
-				notify('success', 'Campaign yaratildi!')
-			} catch (err) {
-				handleApiError(err, 'Campaign yaratishda xatolik!')
-			} finally {
-				setLoading(false)
 			}
 		},
 		[fetchCampaigns, fetchCampaignsUser]
@@ -69,20 +71,22 @@ export const useCampaigns = () => {
 
 	const handleUpdate = useCallback(
 		async (id, campaign) => {
-			if (!id || !campaign) return
-			setLoading(true)
-			try {
-				await campaignService.update(id, campaign)
-				if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-					fetchCampaigns()
-				} else {
-					fetchCampaignsUser()
+			if (['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role)) {
+				if (!id || !campaign) return
+				setLoading(true)
+				try {
+					await campaignService.update(id, campaign)
+					if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
+						fetchCampaigns()
+					} else {
+						fetchCampaignsUser()
+					}
+					notify('success', 'Campaign yangilandi!')
+				} catch (err) {
+					handleApiError(err, 'Campaign yangilashda xatolik!')
+				} finally {
+					setLoading(false)
 				}
-				notify('success', 'Campaign yangilandi!')
-			} catch (err) {
-				handleApiError(err, 'Campaign yangilashda xatolik!')
-			} finally {
-				setLoading(false)
 			}
 		},
 		[fetchCampaigns, fetchCampaignsUser]
@@ -90,19 +94,21 @@ export const useCampaigns = () => {
 
 	const handleDelete = useCallback(
 		async (id) => {
-			setLoading(true)
-			try {
-				await campaignService.delete(id)
-				if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-					fetchCampaigns()
-				} else {
-					fetchCampaignsUser()
+			if (['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role)) {
+				setLoading(true)
+				try {
+					await campaignService.delete(id)
+					if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
+						fetchCampaigns()
+					} else {
+						fetchCampaignsUser()
+					}
+					notify('success', "Campaign o'chirildi!")
+				} catch (err) {
+					handleApiError(err, "Campaign o'chirishda xatolik!")
+				} finally {
+					setLoading(false)
 				}
-				notify('success', "Campaign o'chirildi!")
-			} catch (err) {
-				handleApiError(err, "Campaign o'chirishda xatolik!")
-			} finally {
-				setLoading(false)
 			}
 		},
 		[fetchCampaigns, fetchCampaignsUser]

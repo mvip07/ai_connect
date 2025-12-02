@@ -4,6 +4,7 @@ import { useModal } from '../components/UI/Modal'
 import MainLayout from '../components/layout/MainLayout'
 import { CompaignsModal } from '../components/CompaignsModal'
 import { useCampaigns } from '../hooks/useCompaigns'
+import { getUserFromStorage } from '../lib/helpers/userStore'
 
 export default function Campaigns() {
 	const { openModal, closeModal } = useModal()
@@ -43,10 +44,12 @@ export default function Campaigns() {
 		<MainLayout>
 			<header className="flex flex-wrap items-center justify-between gap-4">
 				<h1 className="text-4xl font-black leading-tight tracking-[-0.033em] text-secondary dark:text-white">Campaigns</h1>
-				<button onClick={handleOpenCreate} className="flex h-12 min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-DEFAULT bg-primary px-5 text-base font-bold text-white shadow-soft shadow-primary/30 transition-all hover:bg-primary/90">
-					<span className="material-symbols-outlined text-xl">add_circle</span>
-					<span className="truncate">Create Campaign</span>
-				</button>
+				{['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && (
+					<button onClick={handleOpenCreate} className="flex h-12 min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-DEFAULT bg-primary px-5 text-base font-bold text-white shadow-soft shadow-primary/30 transition-all hover:bg-primary/90">
+						<span className="material-symbols-outlined text-xl">add_circle</span>
+						<span className="truncate">Create Campaign</span>
+					</button>
+				)}
 			</header>
 			<section className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 				<div className="flex flex-col gap-2 rounded-lg border border-slate-200/80 bg-white p-6 shadow-soft dark:border-slate-800/20 dark:bg-slate-900/50">
@@ -136,8 +139,13 @@ export default function Campaigns() {
 										<td className="whitespace-nowrap border-y border-slate-200/80 bg-white px-6 py-5 text-sm dark:border-slate-800/20 dark:bg-slate-900/50">{campaign.content}</td>
 										<td className="whitespace-nowrap border-y border-slate-200/80 bg-white px-6 py-5 text-sm text-slate-500 dark:text-slate-400 dark:border-slate-800/20 dark:bg-slate-900/50">{new Date(campaign.created_at).toLocaleDateString()}</td>
 										<td className="flex items-center justify-end gap-4 rounded-r-lg border-y border-r border-slate-200/80 bg-white px-6 py-5 text-right text-sm font-medium dark:border-slate-800/20 dark:bg-slate-900/50">
-											<Edit onClick={() => handleOpenUpdate(campaign.id)} className="size-5 text-text-secondary cursor-pointer" />
-											<Trash onClick={() => handleOpenDelete(campaign.id)} className="size-5 text-text-secondary cursor-pointer" />
+											{['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && (
+												<>
+													<Edit onClick={() => handleOpenUpdate(campaign.id)} className="size-5 text-text-secondary cursor-pointer" />
+													<Trash onClick={() => handleOpenDelete(campaign.id)} className="size-5 text-text-secondary cursor-pointer" />
+												</>
+											)}
+											{!['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && 'No Action'}
 										</td>
 									</tr>
 								))}

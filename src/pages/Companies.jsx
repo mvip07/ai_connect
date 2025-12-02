@@ -4,6 +4,7 @@ import { useCompanies } from '../hooks/useCompanies'
 import { useModal } from '../components/UI/Modal'
 import MainLayout from '../components/layout/MainLayout'
 import { CompaniesModal } from '../components/CompaniesModal'
+import { getUserFromStorage } from '../lib/helpers/userStore'
 
 export default function Companies() {
 	const { openModal, closeModal } = useModal()
@@ -94,10 +95,12 @@ export default function Companies() {
 					<p className="text-secondary text-3xl font-bold leading-tight">Client Companies</p>
 					<p className="text-text-secondary text-base font-normal leading-normal">Manage, monitor, and configure all client accounts on the platform.</p>
 				</div>
-				<button onClick={handleOpenCreate} className="flex items-center justify-center gap-2 overflow-hidden rounded-DEFAULT h-11 px-5 bg-primary text-white text-sm font-medium leading-normal shadow-soft hover:shadow-md transition-shadow">
-					<span className="material-symbols-outlined">add</span>
-					<span className="truncate">Add New Company</span>
-				</button>
+				{['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && (
+					<button onClick={handleOpenCreate} className="flex items-center justify-center gap-2 overflow-hidden rounded-DEFAULT h-11 px-5 bg-primary text-white text-sm font-medium leading-normal shadow-soft hover:shadow-md transition-shadow">
+						<span className="material-symbols-outlined">add</span>
+						<span className="truncate">Add New Company</span>
+					</button>
+				)}
 			</div>
 			<div className="w-full rounded-lg bg-card p-6 shadow-soft-lg border border-border-color">
 				<div className="flex flex-wrap items-center justify-between gap-4 mb-4">
@@ -140,30 +143,35 @@ export default function Companies() {
 						</thead>
 						<tbody>
 							{paginatedCompanies.map((company) => (
-								<tr key={company.id} className="border-b border-border-color hover:bg-gray-50/50 cursor-pointer">
-									<td className="px-4 py-4 text-sm text-text-secondary">
+								<tr key={company.id} className="px-4 py-4 border-b border-border-color hover:bg-gray-50/50 cursor-pointer">
+									<td className=" text-sm text-text-secondary">
 										<a href={`user/${company.id}`}>
 											<img className="size-10 max-size-10" src={company.logo_path} alt="Logo Path" />
 										</a>
 									</td>
-									<td className="px-4 py-4 text-sm font-medium text-secondary text-nowrap">
+									<td className=" text-sm font-medium text-secondary text-nowrap">
 										<a href={`user/${company.id}`}>{company.title}</a>
 									</td>
-									<td className="px-4 py-4 text-sm text-text-secondary">{company.description}</td>
-									<td className="px-4 py-4 text-sm text-text-secondary text-nowrap">{company.contact_number}</td>
-									<td className="px-4 py-4 text-sm text-text-secondary">{company.contact_email}</td>
-									<td className="px-4 py-4 text-sm text-text-secondary">{company.address}</td>
-									<td className="px-4 py-4 text-sm text-text-secondary">{company.instagram_token.length > 10 ? company.instagram_token.slice(0, 10) + '...' : company.instagram_token}</td>
-									<td className="px-4 py-4 text-sm text-text-secondary">{company.instagram_verify_token.length > 10 ? company.instagram_verify_token.slice(0, 10) + '...' : company.instagram_verify_token}</td>
-									<td className="px-4 py-4 text-sm text-text-secondary">{company.openai_token.length > 10 ? company.openai_token.slice(0, 10) + '...' : company.openai_token}</td>
-									<td className="px-4 py-4">
+									<td className=" text-sm text-text-secondary">{company.description}</td>
+									<td className=" text-sm text-text-secondary text-nowrap">{company.contact_number}</td>
+									<td className=" text-sm text-text-secondary">{company.contact_email}</td>
+									<td className=" text-sm text-text-secondary">{company.address}</td>
+									<td className=" text-sm text-text-secondary">{company.instagram_token.length > 10 ? company.instagram_token.slice(0, 10) + '...' : company.instagram_token}</td>
+									<td className=" text-sm text-text-secondary">{company.instagram_verify_token.length > 10 ? company.instagram_verify_token.slice(0, 10) + '...' : company.instagram_verify_token}</td>
+									<td className=" text-sm text-text-secondary">{company.openai_token.length > 10 ? company.openai_token.slice(0, 10) + '...' : company.openai_token}</td>
+									<td className="">
 										<span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${company.is_active ? 'bg-success/10 text-success' : 'bg-error/10 text-error'}`}>{company.is_active ? 'Active' : 'Inactive'}</span>
 									</td>
-									<td className="px-4 py-4 text-sm text-text-secondary">{new Date(company.created_at).toLocaleDateString()}</td>
-									<td className="px-4 py-4 text-right">
-										<div className=" flex items-center justify-end gap-3">
-											<Edit onClick={() => handleOpenUpdate(company.id)} className="size-5 text-text-secondary cursor-pointer" />
-											<Trash onClick={() => handleOpenDelete(company.id)} className="size-5 text-text-secondary cursor-pointer" />
+									<td className=" text-sm text-text-secondary">{new Date(company.created_at).toLocaleDateString()}</td>
+									<td className=" text-right">
+										<div className="flex items-center justify-end gap-3">
+											{['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && (
+												<>
+													<Edit onClick={() => handleOpenUpdate(company.id)} className="size-5 text-text-secondary cursor-pointer" />
+													<Trash onClick={() => handleOpenDelete(company.id)} className="size-5 text-text-secondary cursor-pointer" />
+												</>
+											)}
+											{!['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && 'No Action'}
 										</div>
 									</td>
 								</tr>

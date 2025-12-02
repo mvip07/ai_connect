@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { notify } from '../lib/toastify'
 import { userService } from '../services/user.serive'
 import { handleApiError } from '../lib/helpers/handleApiError'
+import { getUserFromStorage } from '../lib/helpers/userStore'
 
 export const useUsers = () => {
 	const [loading, setLoading] = useState(false)
@@ -10,14 +11,19 @@ export const useUsers = () => {
 	const fetchUsers = useCallback(async () => {
 		setLoading(true)
 		try {
-			const data = await userService.getAll()
-			setUsers(data)
+			if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
+				const data = await userService.getAll()
+				setUsers(data)
+			} else {
+				const data = await userService.getCUserFromId(getUserFromStorage()?.user?.company_id)
+				setUsers(data)
+			}
 		} catch (err) {
 			handleApiError(err, 'Users yuklashda xatolik!')
 		} finally {
 			setLoading(false)
 		}
-	}, [])
+	}, [getUserFromStorage])
 
 	const fetchUser = useCallback(async (id) => {
 		setLoading(true)

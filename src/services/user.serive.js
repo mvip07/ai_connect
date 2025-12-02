@@ -9,6 +9,10 @@ export const userService = {
 		const res = await API.get(`/api/user/${id}`)
 		return res.data.result
 	},
+	async getCUserFromId(companyId) {
+		const res = await API.get(`/api/user/company/${companyId}`)
+		return res.data.result
+	},
 	async getProfile() {
 		const res = await API.get(`/api/auth/profile/me`)
 		return res.data.result

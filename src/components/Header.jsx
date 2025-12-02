@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom'
 
 export default function Header({ active, toggleSideBar }) {
 	const navigate = useNavigate()
-	const [form, setForm] = useState({ full_name: '', phone_number: '', pic_path: '', username: '' })
+	const [form, setForm] = useState({ full_name: '', role: '', phone_number: '', pic_path: '', username: '' })
 
 	useEffect(() => {
 		const load = async () => {
 			const data = await userService.getProfile()
 			setForm({
+				role: data.role || '',
 				full_name: data.full_name || '',
 				phone_number: data.phone_number || '',
 				pic_path: data.pic_path || '',
@@ -37,8 +38,14 @@ export default function Header({ active, toggleSideBar }) {
 				<button className="flex h-11 w-11 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-white text-[#1D1F23]/60 shadow-[0_4px_14px_rgba(0,0,0,0.05)] ring-1 ring-[#E0E7FF]/50">
 					<span className="material-symbols-outlined">notifications</span>
 				</button>
-				<div onClick={() => navigate('/settings')} className="bg-center bg-no-repeat cursor-pointer aspect-square bg-cover rounded-full size-12 ring-2 ring-white" data-alt="User profile avatar image">
-					<img className="w-full h-full rounded-full" src={form.pic_path} alt="User Image" />
+				<div className="flex items-center gap-4">
+					<div className="text-secondary text-md font-medium text-end">
+						<h4 className="text-md">{form.full_name}</h4>
+						<p className="text-sm">{form.role}</p>
+					</div>
+					<div onClick={() => navigate('/settings')} className="bg-center bg-no-repeat cursor-pointer aspect-square bg-cover rounded-full size-12 ring-2 ring-white" data-alt="User profile avatar image">
+						<img className="w-full h-full rounded-full" src={form.pic_path} alt="User Image" />
+					</div>
 				</div>
 			</div>
 		</header>

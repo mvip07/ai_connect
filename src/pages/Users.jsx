@@ -2,6 +2,7 @@ import MainLayout from '../components/layout/MainLayout'
 import { useModal } from '../components/UI/Modal'
 import { UsersModal } from '../components/UsersModal'
 import { useUsers } from '../hooks/useUsers'
+import { getUserFromStorage } from '../lib/helpers/userStore'
 
 export default function Users() {
 	const { closeModal, openModal } = useModal()
@@ -57,14 +58,16 @@ export default function Users() {
 										<td class="p-5 text-sm font-medium text-secondary/80 text-center align-top">{user.role}</td>
 										<td class="p-5 text-sm text-secondary/60 align-top text-nowrap">{user.created_at}</td>
 										<td class="p-5 align-top">
-											<div class="flex items-center gap-2 text-secondary/60">
-												<button onClick={() => handleOpenUpdate(user.id)} class="p-1.5 size-10 rounded-md hover:bg-secondary/10 hover:text-secondary">
-													<span class="material-symbols-outlined text-xl">edit</span>
-												</button>
-												<button onClick={() => handleOpenDelete(user.id)} class="p-1.5 size-10 rounded-md hover:bg-secondary/10 hover:text-secondary">
-													<span class="material-symbols-outlined text-xl">delete</span>
-												</button>
-											</div>
+											{getUserFromStorage()?.user?.id !== user.id && (
+												<div class="flex items-center gap-2 text-secondary/60">
+													<button onClick={() => handleOpenUpdate(user.id)} class="p-1.5 size-10 rounded-md hover:bg-secondary/10 hover:text-secondary">
+														<span class="material-symbols-outlined text-xl">edit</span>
+													</button>
+													<button onClick={() => handleOpenDelete(user.id)} class="p-1.5 size-10 rounded-md hover:bg-secondary/10 hover:text-secondary">
+														<span class="material-symbols-outlined text-xl">delete</span>
+													</button>
+												</div>
+											)}
 										</td>
 									</tr>
 								))}

@@ -9,6 +9,7 @@ export const companyService = {
         const res = await API.get(`/api/company/user`)
         return res.data.result
     },
+   
     async getById(id) {
         const res = await API.get(`/api/company/${id}`)
         return res.data.result

@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 
 export const ROLE_PAGES = {
 	SUPERADMIN: ['/', '/client/companies', '/campaigns', '/users', '/robots', '/settings'],
-	ADMIN: ['/dashboard', '/client/companies', '/campaigns', '/settings'],
+	ADMIN: ['/dashboard', '/users', '/campaigns', '/settings'],
 	MANAGER: ['/dashboard', '/client/companies', '/campaigns', '/settings'],
 	OPERATOR: ['/dashboard', '/client/companies', '/campaigns', '/settings'],
 }
@@ -15,7 +15,6 @@ const SIDEBAR_ITEMS = [
 	{ path: '/client/companies', icon: 'group', label: 'Clients' },
 	{ path: '/campaigns', icon: 'target', label: 'Campaigns' },
 	{ path: '/users', icon: 'group', label: 'Users' },
-	{ path: '/robots', icon: 'robot_2', label: 'AI Models' },
 	{ path: '/operator', icon: 'dashboard', label: 'Dashboard' },
 	{ path: '/settings', icon: 'settings', label: 'Settings' },
 ]

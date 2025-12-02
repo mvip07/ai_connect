@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useCompanies } from '../hooks/useCompanies'
 import { FileUploader } from './UI/UploadImageFirebase'
+import { getUserFromStorage } from '../lib/helpers/userStore'
 
 export const CreateUserModal = ({ closeModal, handleCreate }) => {
 	const { companies } = useCompanies()
@@ -45,11 +46,17 @@ export const CreateUserModal = ({ closeModal, handleCreate }) => {
 				<p className="text-secondary text-sm font-medium pb-2">Role *</p>
 				<select onChange={handleChange} value={formData?.role} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="role" id="role">
 					<option value="">--Select Role--</option>
-					{['SUPERADMIN', 'ADMIN', 'MANAGER', 'OPERATOR'].map((role) => (
-						<option key={Math.random()} value={role}>
-							{role}
-						</option>
-					))}
+					{getUserFromStorage()?.user?.role === 'SUPERADMIN'
+						? ['SUPERADMIN', 'ADMIN', 'MANAGER', 'OPERATOR'].map((role) => (
+								<option key={Math.random()} value={role}>
+									{role}
+								</option>
+						  ))
+						: ['MANAGER', 'OPERATOR'].map((role) => (
+								<option key={Math.random()} value={role}>
+									{role}
+								</option>
+						  ))}
 				</select>
 			</label>
 			<label className="flex flex-col min-w-40 flex-1">
@@ -136,11 +143,17 @@ export const EditUserModal = ({ id, closeModal, fetchUser, handleUpdate }) => {
 				<p className="text-secondary text-sm font-medium pb-2">Role *</p>
 				<select onChange={handleChange} value={formData?.role} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="role" id="role">
 					<option value="">--Select Role--</option>
-					{['SUPERADMIN', 'ADMIN', 'MANAGER', 'OPERATOR'].map((role) => (
-						<option key={Math.random()} value={role}>
-							{role}
-						</option>
-					))}
+					{getUserFromStorage()?.user?.role === 'SUPERADMIN'
+						? ['SUPERADMIN', 'ADMIN', 'MANAGER', 'OPERATOR'].map((role) => (
+								<option key={Math.random()} value={role}>
+									{role}
+								</option>
+						  ))
+						: ['MANAGER', 'OPERATOR'].map((role) => (
+								<option key={Math.random()} value={role}>
+									{role}
+								</option>
+						  ))}
 				</select>
 			</label>
 			<label className="flex flex-col min-w-40 flex-1">

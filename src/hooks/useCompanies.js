@@ -49,19 +49,21 @@ export const useCompanies = () => {
 
 	const handleCreate = useCallback(
 		async (company) => {
-			setLoading(true)
-			try {
-				await companyService.create(company)
-				if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-					fetchCompanies()
-				} else {
-					fetchCompaniesUser()
+			if (['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role)) {
+				setLoading(true)
+				try {
+					await companyService.create(company)
+					if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
+						fetchCompanies()
+					} else {
+						fetchCompaniesUser()
+					}
+					notify('success', 'Company yaratildi!')
+				} catch (err) {
+					handleApiError(err, 'Company yaratishda xatolik!')
+				} finally {
+					setLoading(false)
 				}
-				notify('success', 'Company yaratildi!')
-			} catch (err) {
-				handleApiError(err, 'Company yaratishda xatolik!')
-			} finally {
-				setLoading(false)
 			}
 		},
 		[fetchCompanies, fetchCompaniesUser]
@@ -69,20 +71,22 @@ export const useCompanies = () => {
 
 	const handleUpdate = useCallback(
 		async (id, company) => {
-			if (!id || !company) return
-			setLoading(true)
-			try {
-				await companyService.update(id, company)
-				if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-					fetchCompanies()
-				} else {
-					fetchCompaniesUser()
+			if (['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role)) {
+				if (!id || !company) return
+				setLoading(true)
+				try {
+					await companyService.update(id, company)
+					if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
+						fetchCompanies()
+					} else {
+						fetchCompaniesUser()
+					}
+					notify('success', 'Company yangilandi!')
+				} catch (err) {
+					handleApiError(err, 'Company yangilashda xatolik!')
+				} finally {
+					setLoading(false)
 				}
-				notify('success', 'Company yangilandi!')
-			} catch (err) {
-				handleApiError(err, 'Company yangilashda xatolik!')
-			} finally {
-				setLoading(false)
 			}
 		},
 		[fetchCompanies, fetchCompaniesUser]
@@ -90,19 +94,21 @@ export const useCompanies = () => {
 
 	const handleDelete = useCallback(
 		async (id) => {
-			setLoading(true)
-			try {
-				await companyService.delete(id)
-				if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-					fetchCompanies()
-				} else {
-					fetchCompaniesUser()
+			if (['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role)) {
+				setLoading(true)
+				try {
+					await companyService.delete(id)
+					if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
+						fetchCompanies()
+					} else {
+						fetchCompaniesUser()
+					}
+					notify('success', "Company o'chirildi!")
+				} catch (err) {
+					handleApiError(err, "Company o'chirishda xatolik!")
+				} finally {
+					setLoading(false)
 				}
-				notify('success', "Company o'chirildi!")
-			} catch (err) {
-				handleApiError(err, "Company o'chirishda xatolik!")
-			} finally {
-				setLoading(false)
 			}
 		},
 		[fetchCompanies, fetchCompaniesUser]
