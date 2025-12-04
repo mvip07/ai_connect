@@ -1,21 +1,21 @@
 import { useState, useCallback, useEffect } from 'react'
 import { notify } from '../lib/toastify'
-import { userService } from '../services/user.serive'
+import { userService } from '../services/user.service'
 import { handleApiError } from '../lib/helpers/handleApiError'
 import { getUserFromStorage } from '../lib/helpers/userStore'
 
-export const useUsers = () => {
+export const useUsers = (comapnyId) => {
 	const [loading, setLoading] = useState(false)
 	const [users, setUsers] = useState([])
 
 	const fetchUsers = useCallback(async () => {
 		setLoading(true)
 		try {
-			if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-				const data = await userService.getAll()
+			if (comapnyId) {
+				const data = await userService.getCUserFromId(comapnyId)
 				setUsers(data)
 			} else {
-				const data = await userService.getCUserFromId(getUserFromStorage()?.user?.company_id)
+				const data = await userService.getAll()
 				setUsers(data)
 			}
 		} catch (err) {

@@ -1,24 +1,27 @@
 import { useState, useCallback, useEffect } from 'react'
 import { notify } from '../lib/toastify'
-import { campaignService } from '../services/compaignsService'
+import { campaignService } from '../services/compaigns.service'
 import { handleApiError } from '../lib/helpers/handleApiError'
 import { getUserFromStorage } from '../lib/helpers/userStore'
 
-export const useCampaigns = () => {
+export const useCampaigns = (companyId) => {
 	const [loading, setLoading] = useState(false)
 	const [campaigns, setCampaigns] = useState([])
 
 	const fetchCampaigns = useCallback(async () => {
-		if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-			setLoading(true)
-			try {
+		setLoading(true)
+		try {
+			if (companyId) {
+				const data = await campaignService.getUser(companyId)
+				setCampaigns(data)
+			} else {
 				const data = await campaignService.getAll()
 				setCampaigns(data)
-			} catch (err) {
-				handleApiError(err, 'Campaign yuklashda xatolik!')
-			} finally {
-				setLoading(false)
 			}
+		} catch (err) {
+			handleApiError(err, 'Campaign yuklashda xatolik!')
+		} finally {
+			setLoading(false)
 		}
 	}, [getUserFromStorage])
 
@@ -33,31 +36,13 @@ export const useCampaigns = () => {
 		}
 	}, [])
 
-	const fetchCampaignsUser = useCallback(async () => {
-		if (getUserFromStorage()?.user?.role !== 'SUPERADMIN') {
-			setLoading(true)
-			try {
-				const data = await campaignService.getUser(getUserFromStorage()?.user?.company_id)
-				setCampaigns(data)
-			} catch (err) {
-				handleApiError(err, "Campaign ma'lumotini yuklashda xatolik!")
-			} finally {
-				setLoading(false)
-			}
-		}
-	}, [getUserFromStorage])
-
 	const handleCreate = useCallback(
 		async (campaign) => {
 			if (['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role)) {
 				setLoading(true)
 				try {
 					await campaignService.create(campaign)
-					if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-						fetchCampaigns()
-					} else {
-						fetchCampaignsUser()
-					}
+					fetchCampaigns()
 					notify('success', 'Campaign yaratildi!')
 				} catch (err) {
 					handleApiError(err, 'Campaign yaratishda xatolik!')
@@ -66,7 +51,7 @@ export const useCampaigns = () => {
 				}
 			}
 		},
-		[fetchCampaigns, fetchCampaignsUser]
+		[fetchCampaigns]
 	)
 
 	const handleUpdate = useCallback(
@@ -76,11 +61,7 @@ export const useCampaigns = () => {
 				setLoading(true)
 				try {
 					await campaignService.update(id, campaign)
-					if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-						fetchCampaigns()
-					} else {
-						fetchCampaignsUser()
-					}
+					fetchCampaigns()
 					notify('success', 'Campaign yangilandi!')
 				} catch (err) {
 					handleApiError(err, 'Campaign yangilashda xatolik!')
@@ -89,7 +70,7 @@ export const useCampaigns = () => {
 				}
 			}
 		},
-		[fetchCampaigns, fetchCampaignsUser]
+		[fetchCampaigns]
 	)
 
 	const handleDelete = useCallback(
@@ -98,11 +79,7 @@ export const useCampaigns = () => {
 				setLoading(true)
 				try {
 					await campaignService.delete(id)
-					if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-						fetchCampaigns()
-					} else {
-						fetchCampaignsUser()
-					}
+					fetchCampaigns()
 					notify('success', "Campaign o'chirildi!")
 				} catch (err) {
 					handleApiError(err, "Campaign o'chirishda xatolik!")
@@ -111,16 +88,12 @@ export const useCampaigns = () => {
 				}
 			}
 		},
-		[fetchCampaigns, fetchCampaignsUser]
+		[fetchCampaigns]
 	)
 
 	useEffect(() => {
-		if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-			fetchCampaigns()
-		} else {
-			fetchCampaignsUser()
-		}
-	}, [fetchCampaigns, getUserFromStorage])
+		fetchCampaigns()
+	}, [fetchCampaigns])
 
 	return {
 		loading,
@@ -130,6 +103,5 @@ export const useCampaigns = () => {
 		handleUpdate,
 		handleDelete,
 		fetchCampaigns,
-		fetchCampaignsUser,
 	}
 }

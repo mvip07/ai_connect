@@ -1,41 +1,52 @@
-import { useLocation, useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { clearToken, getUserFromStorage } from '../lib/helpers/userStore'
-import { useEffect } from 'react'
+import { resetOpenedSection } from '../lib/helpers/companyDetailState'
 
 export const ROLE_PAGES = {
-	SUPERADMIN: ['/', '/client/companies', '/campaigns', '/users', '/robots', '/settings'],
-	ADMIN: ['/dashboard', '/users', '/campaigns', '/settings'],
-	MANAGER: ['/dashboard', '/client/companies', '/campaigns', '/settings'],
-	OPERATOR: ['/dashboard', '/client/companies', '/campaigns', '/settings'],
+	SUPERADMIN: ['/dashboard', '/client/companies', '/client/companies/:id', '/settings'],
+	ADMIN: ['/dashboard', '/ai/configs', '/interaction', '/users', '/campaigns', '/settings'],
+	MANAGER: ['/dashboard', '/ai/configs', '/interaction', '/users', '/campaigns', '/settings'],
+	OPERATOR: ['/dashboard', '/ai/configs', '/interaction', '/users', '/campaigns', '/settings'],
 }
 
 const SIDEBAR_ITEMS = [
-	{ path: '/', icon: 'dashboard', label: 'Dashboard' },
-	{ path: '/dashboard', icon: 'dashboard', label: 'Dashboard' },
-	{ path: '/client/companies', icon: 'group', label: 'Clients' },
-	{ path: '/campaigns', icon: 'target', label: 'Campaigns' },
+	{ path: '/dashboard', icon: 'space_dashboard', label: 'Dashboard' },
+	{ path: '/ai/configs', icon: 'smart_toy', label: 'AI Response' },
+	{ path: '/client/companies', icon: 'groups', label: 'Clients' },
+	{ path: '/campaigns', icon: 'track_changes', label: 'Campaigns' },
 	{ path: '/users', icon: 'group', label: 'Users' },
-	{ path: '/operator', icon: 'dashboard', label: 'Dashboard' },
+	{ path: '/interaction', icon: 'list_alt', label: 'Interaction Logs' },
 	{ path: '/settings', icon: 'settings', label: 'Settings' },
 ]
 
-export default function SideBar({ active }) {
+const matchRoute = (path, pattern) => {
+	if (pattern.includes(':id')) {
+		const regex = new RegExp('^' + pattern.replace(':id', '[^/]+') + '$')
+		return regex.test(path)
+	}
+	return path === pattern
+}
+
+const SideBar = React.memo(function SideBar({ active, userData }) {
 	const navigate = useNavigate()
 	const { pathname } = useLocation()
+	const { id } = useParams()
 
-	const role = getUserFromStorage()?.user?.role
+	const role = userData?.role || getUserFromStorage()?.user?.role
 	const allowedPages = ROLE_PAGES[role] || []
 
 	useEffect(() => {
-		if (!allowedPages.includes(pathname)) {
+		const allowed = allowedPages.some((p) => matchRoute(pathname, p))
+		if (!allowed) {
 			navigate(allowedPages[0] || '/', { replace: true })
 		}
-	}, [pathname])
+	}, [pathname, allowedPages, navigate])
 
-	const filteredItems = SIDEBAR_ITEMS.filter((item) => allowedPages.includes(item.path))
+	const filteredItems = SIDEBAR_ITEMS.filter((item) => allowedPages.some((p) => matchRoute(item.path, p)))
 
 	return (
-		<nav className={`h-full w-20 flex-col items-center border-r border-[#E0E7FF] bg-white pt-6 pb-4 transtion-all duration-300 ease-in-out   ${active ? 'fixed top-0 start-0 w-20 flex z-50 lg:static lg:flex' : 'hidden lg:flex'}`}>
+		<nav className={`h-full w-20 flex-col items-center border-r border-[#E0E7FF] bg-white pt-6 pb-4 transtion-all duration-300 ease-in-out ${active ? 'fixed top-0 start-0 w-20 flex z-50 lg:static lg:flex' : 'hidden lg:flex'}`}>
 			<div className="mb-8">
 				<div
 					className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
@@ -46,6 +57,18 @@ export default function SideBar({ active }) {
 			</div>
 
 			<div className="flex flex-col items-center gap-2">
+				{getUserFromStorage()?.user?.role === 'SUPERADMIN' && id && (
+					<div
+						onClick={() => {
+							resetOpenedSection()
+							window.location.reload()
+						}}
+						className="group relative flex cursor-pointer items-center justify-center rounded-lg p-3 bg-primary/20 text-primary"
+					>
+						<span className="material-symbols-outlined">arrow_back</span>
+						<span className="absolute left-full ml-4 hidden -translate-x-2 whitespace-nowrap rounded-md bg-[#1D1F23] px-2 py-1 text-xs text-white group-hover:block">Back</span>
+					</div>
+				)}
 				{filteredItems.map((item) => (
 					<div key={item.path} onClick={() => navigate(item.path)} className={`group relative flex cursor-pointer items-center justify-center rounded-lg p-3 ${pathname === item.path ? 'bg-primary/20 text-primary' : 'text-[#1D1F23]/60 hover:bg-primary/10 hover:text-primary'}`}>
 						<span className="material-symbols-outlined">{item.icon}</span>
@@ -60,4 +83,6 @@ export default function SideBar({ active }) {
 			</div>
 		</nav>
 	)
-}
+})
+
+export default SideBar

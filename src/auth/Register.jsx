@@ -23,19 +23,19 @@ export default function Register() {
 									</div>
 									<form className="flex flex-col gap-5">
 										<div className="flex flex-col">
-											<label className="text-[#1D1F23] text-sm font-medium leading-normal pb-2" for="full-name">
+											<label className="text-[#1D1F23] text-sm font-medium leading-normal pb-2" htmlFor="full-name">
 												Full Name
 											</label>
 											<input className="form-input w-full rounded-lg border border-gray-200 bg-gray-50/50 p-3 text-base font-normal text-[#1D1F23] placeholder:text-gray-400 focus:border-primary focus:ring-4 focus:ring-primary/20" id="full-name" placeholder="Enter your full name" type="text" />
 										</div>
 										<div className="flex flex-col">
-											<label className="text-[#1D1F23] text-sm font-medium leading-normal pb-2" for="work-email">
+											<label className="text-[#1D1F23] text-sm font-medium leading-normal pb-2" htmlFor="work-email">
 												Work Email
 											</label>
 											<input className="form-input w-full rounded-lg border border-gray-200 bg-gray-50/50 p-3 text-base font-normal text-[#1D1F23] placeholder:text-gray-400 focus:border-primary focus:ring-4 focus:ring-primary/20" id="work-email" placeholder="Enter your work email" type="email" />
 										</div>
 										<div className="relative flex flex-col">
-											<label className="text-[#1D1F23] text-sm font-medium leading-normal pb-2" for="password">
+											<label className="text-[#1D1F23] text-sm font-medium leading-normal pb-2" htmlFor="password">
 												Password
 											</label>
 											<input className="form-input w-full rounded-lg border border-gray-200 bg-gray-50/50 p-3 text-base font-normal text-[#1D1F23] placeholder:text-gray-400 focus:border-primary focus:ring-4 focus:ring-primary/20" id="password" placeholder="Enter your password" type="password" />
@@ -46,14 +46,14 @@ export default function Register() {
 											</button>
 										</div>
 										<div className="relative flex flex-col">
-											<label className="text-[#1D1F23] text-sm font-medium leading-normal pb-2" for="confirm-password">
+											<label className="text-[#1D1F23] text-sm font-medium leading-normal pb-2" htmlFor="confirm-password">
 												Confirm Password
 											</label>
 											<input className="form-input w-full rounded-lg border border-gray-200 bg-gray-50/50 p-3 text-base font-normal text-[#1D1F23] placeholder:text-gray-400 focus:border-primary focus:ring-4 focus:ring-primary/20" id="confirm-password" placeholder="Confirm your password" type="password" />
 										</div>
 										<div className="flex items-center gap-3 pt-2">
 											<input className="form-checkbox h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary/30" id="terms-checkbox" type="checkbox" />
-											<label className="text-sm text-[#1D1F23]/80" for="terms-checkbox">
+											<label className="text-sm text-[#1D1F23]/80" htmlFor="terms-checkbox">
 												I agree to the{' '}
 												<a className="font-medium text-primary hover:underline" href="#">
 													Terms and Conditions

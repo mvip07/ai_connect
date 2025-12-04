@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Edit, Trash } from 'lucide-react'
+import { NavLink } from 'react-router-dom'
 import { useCompanies } from '../hooks/useCompanies'
 import { useModal } from '../components/UI/Modal'
 import MainLayout from '../components/layout/MainLayout'
@@ -123,16 +123,17 @@ export default function Companies() {
 						</button>
 					</div>
 				</div>
-				<div className="overflow-x-auto">
+				<div className="overflow-x-auto scroll-none">
 					<table className="w-full text-left">
 						<thead>
-							<tr className="border-b border-border-color">
+							<tr className="px-4 py-3 border-b border-border-color">
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Company Logo</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Company Name</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Description</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Contact Number</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Contact Email</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Address</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Instagram Id</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Instagram Token</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Instagram Verify Token</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">OpenAI Token</th>
@@ -143,32 +144,37 @@ export default function Companies() {
 						</thead>
 						<tbody>
 							{paginatedCompanies.map((company) => (
-								<tr key={company.id} className="px-4 py-4 border-b border-border-color hover:bg-gray-50/50 cursor-pointer">
-									<td className=" text-sm text-text-secondary">
-										<a href={`user/${company.id}`}>
+								<tr key={company.id} className="border-b border-border-color hover:bg-gray-50/50 cursor-pointer last:border-b-0">
+									<td className="px-4 py-3 text-sm text-text-secondary">
+										<NavLink to={`/client/companies/${company.id}`}>
 											<img className="size-10 max-size-10" src={company.logo_path} alt="Logo Path" />
-										</a>
+										</NavLink>
 									</td>
-									<td className=" text-sm font-medium text-secondary text-nowrap">
-										<a href={`user/${company.id}`}>{company.title}</a>
+									<td className="px-4 py-3 text-sm font-medium text-secondary text-nowrap">
+										<NavLink to={`/client/companies/${company.id}`}>{company.title}</NavLink>
 									</td>
-									<td className=" text-sm text-text-secondary">{company.description}</td>
-									<td className=" text-sm text-text-secondary text-nowrap">{company.contact_number}</td>
-									<td className=" text-sm text-text-secondary">{company.contact_email}</td>
-									<td className=" text-sm text-text-secondary">{company.address}</td>
-									<td className=" text-sm text-text-secondary">{company.instagram_token.length > 10 ? company.instagram_token.slice(0, 10) + '...' : company.instagram_token}</td>
-									<td className=" text-sm text-text-secondary">{company.instagram_verify_token.length > 10 ? company.instagram_verify_token.slice(0, 10) + '...' : company.instagram_verify_token}</td>
-									<td className=" text-sm text-text-secondary">{company.openai_token.length > 10 ? company.openai_token.slice(0, 10) + '...' : company.openai_token}</td>
-									<td className="">
+									<td className="px-4 py-3 text-sm text-text-secondary">{company.description}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary text-nowrap">{company.contact_number}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary">{company.contact_email}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary">{company.address}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary">{company.instagram_id}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary">{company.instagram_token.length > 10 ? company.instagram_token.slice(0, 10) + '...' : company.instagram_token}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary">{company.instagram_verify_token.length > 10 ? company.instagram_verify_token.slice(0, 10) + '...' : company.instagram_verify_token}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary">{company.openai_token.length > 10 ? company.openai_token.slice(0, 10) + '...' : company.openai_token}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary">
 										<span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${company.is_active ? 'bg-success/10 text-success' : 'bg-error/10 text-error'}`}>{company.is_active ? 'Active' : 'Inactive'}</span>
 									</td>
-									<td className=" text-sm text-text-secondary">{new Date(company.created_at).toLocaleDateString()}</td>
-									<td className=" text-right">
-										<div className="flex items-center justify-end gap-3">
+									<td className="px-4 py-3 text-sm text-text-secondary">{new Date(company.created_at).toLocaleDateString()}</td>
+									<td className="px-4 py-3 text-right">
+										<div className="flex items-center justify-end gap-2 text-secondary/60">
 											{['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && (
 												<>
-													<Edit onClick={() => handleOpenUpdate(company.id)} className="size-5 text-text-secondary cursor-pointer" />
-													<Trash onClick={() => handleOpenDelete(company.id)} className="size-5 text-text-secondary cursor-pointer" />
+													<button onClick={() => handleOpenUpdate(company.id)} className="p-1.5 size-10 rounded-md hover:bg-secondary/10 hover:text-secondary">
+														<span className="material-symbols-outlined text-xl">edit</span>
+													</button>
+													<button onClick={() => handleOpenDelete(company.id)} className="p-1.5 size-10 rounded-md hover:bg-secondary/10 hover:text-secondary">
+														<span className="material-symbols-outlined text-xl">delete</span>
+													</button>
 												</>
 											)}
 											{!['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && 'No Action'}
@@ -180,7 +186,7 @@ export default function Companies() {
 					</table>
 				</div>
 
-				<div className="flex items-center justify-between pt-4 mt-4 border-t border-border-color">
+				<div className="flex items-center justify-between pt-4 border-t border-border-color">
 					<p className="text-sm text-text-secondary">
 						Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} results
 					</p>

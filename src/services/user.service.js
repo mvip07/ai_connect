@@ -30,4 +30,7 @@ export const userService = {
 	async delete(id) {
 		await API.delete(`/api/user/${id}`)
 	},
+	async changePassword(data) {
+		await API.post('/api/auth/change-password', data)
+	},
 }

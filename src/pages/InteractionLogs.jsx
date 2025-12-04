@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import { getUserFromStorage } from '../lib/helpers/userStore'
 import { useModal } from '../components/UI/Modal'
 import MainLayout from '../components/layout/MainLayout'
-import { CompaignsModal } from '../components/CompaignsModal'
-import { useCampaigns } from '../hooks/useCompaigns'
+import { InteractionLogsModal } from '../components/InteractionModal'
+import { getUserFromStorage } from '../lib/helpers/userStore'
+import { useInteractionLogs } from '../hooks/useInteractionLogs'
 
-export default function Campaigns({ companyIdProps }) {
+export default function InteractionLogs({ companyIdProps }) {
 	const companyId = companyIdProps || getUserFromStorage()?.user?.company_id
 	const { openModal, closeModal } = useModal()
-	const { campaigns, fetchCampaign, handleCreate, handleUpdate, handleDelete } = useCampaigns(companyId)
-	const { handleOpenCreate, handleOpenUpdate, handleOpenDelete } = CompaignsModal(closeModal, openModal, fetchCampaign, handleCreate, handleUpdate, handleDelete)
+	const { interactionLogs, handleDelete } = useInteractionLogs(companyId)
+	const { handleOpenDelete } = InteractionLogsModal(closeModal, openModal, handleDelete)
 
 	const [searchQuery, setSearchQuery] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
@@ -17,26 +17,26 @@ export default function Campaigns({ companyIdProps }) {
 	const [sortOrder, setSortOrder] = useState('desc')
 	const itemsPerPage = 5
 
-	const filteredCampaigns =
-		campaigns?.filter((campaign) => {
+	const filteredInteractionLogs =
+		interactionLogs?.filter((log) => {
 			const query = searchQuery.toLowerCase()
-			return campaign.title.toLowerCase().includes(query) || campaign.content.toLowerCase().includes(query)
+			return log.username.toLowerCase().includes(query) || log.interaction_type.toLowerCase().includes(query) || log.message.toLowerCase().includes(query)
 		}) || []
 
-	const sortedCampaigns = [...filteredCampaigns].sort((a, b) => {
+	const sortedInteractionLogs = [...filteredInteractionLogs].sort((a, b) => {
 		if (sortBy === 'created_at') {
 			const dateA = new Date(a.created_at)
 			const dateB = new Date(b.created_at)
 			return sortOrder === 'asc' ? dateA - dateB : dateB - dateA
-		} else if (sortBy === 'title') {
-			return sortOrder === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)
+		} else if (sortBy === 'username') {
+			return sortOrder === 'asc' ? a.username.localeCompare(b.username) : b.username.localeCompare(a.username)
 		}
 		return 0
 	})
 
-	const totalItems = sortedCampaigns.length
+	const totalItems = sortedInteractionLogs.length
 	const totalPages = Math.ceil(totalItems / itemsPerPage)
-	const paginatedCampaigns = sortedCampaigns.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+	const paginatedInteractionLogs = sortedInteractionLogs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 
 	const handleSort = (field) => {
 		if (sortBy === field) {
@@ -92,15 +92,9 @@ export default function Campaigns({ companyIdProps }) {
 		<MainLayout>
 			<div className="flex flex-wrap items-center justify-between gap-4 mb-6">
 				<div className="flex flex-col gap-2">
-					<p className="text-secondary text-3xl font-bold leading-tight">Campaigns</p>
-					<p className="text-text-secondary text-base font-normal leading-normal">Review and manage campaigns.</p>
+					<p className="text-secondary text-3xl font-bold leading-tight">Interaction Logs</p>
+					<p className="text-text-secondary text-base font-normal leading-normal">Review and manage interaction logs.</p>
 				</div>
-				{['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && (
-					<button onClick={handleOpenCreate} className="flex items-center justify-center gap-2 overflow-hidden rounded-DEFAULT h-11 px-5 bg-primary text-white text-sm font-medium leading-normal shadow-soft hover:shadow-md transition-shadow">
-						<span className="material-symbols-outlined">add</span>
-						<span className="truncate">Add New Campaign</span>
-					</button>
-				)}
 			</div>
 			<div className="w-full rounded-lg bg-card p-6 shadow-soft-lg border border-border-color">
 				<div className="flex flex-wrap items-center justify-between gap-4 mb-4">
@@ -108,7 +102,7 @@ export default function Campaigns({ companyIdProps }) {
 						<span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">search</span>
 						<input
 							className="w-full h-10 pl-10 pr-4 rounded-DEFAULT border-border-color focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
-							placeholder="Search by campaign name..."
+							placeholder="Search by username or type..."
 							type="text"
 							value={searchQuery}
 							onChange={(e) => {
@@ -118,8 +112,8 @@ export default function Campaigns({ companyIdProps }) {
 						/>
 					</div>
 					<div className="flex gap-2">
-						<button onClick={() => handleSort('title')} className="flex items-center justify-center gap-2 h-10 px-4 text-secondary bg-white border border-border-color rounded-DEFAULT hover:bg-gray-50 transition-colors text-sm">
-							<span>Sort: Name ({sortOrder === 'asc' ? 'Asc' : 'Desc'})</span>
+						<button onClick={() => handleSort('username')} className="flex items-center justify-center gap-2 h-10 px-4 text-secondary bg-white border border-border-color rounded-DEFAULT hover:bg-gray-50 transition-colors text-sm">
+							<span>Sort: Username ({sortOrder === 'asc' ? 'Asc' : 'Desc'})</span>
 						</button>
 					</div>
 				</div>
@@ -127,35 +121,32 @@ export default function Campaigns({ companyIdProps }) {
 					<table className="w-full text-left">
 						<thead>
 							<tr className="border-b border-border-color">
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Campaign Name</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Status</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Content</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">User Instagram ID</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Username</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Interaction Type</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Message</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">AI Response</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Created At</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
-							{paginatedCampaigns.map((campaign) => (
-								<tr key={campaign.id} className="border-b border-border-color hover:bg-gray-50/50 cursor-pointer last:border-b-0">
-									<td className="px-4 py-3 text-sm font-medium text-secondary text-nowrap">{campaign.title}</td>
-									<td className="px-4 py-3 text-sm text-text-secondary">
-										<span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${campaign.is_active ? 'bg-success/10 text-success' : 'bg-error/10 text-error'}`}>{campaign.is_active ? 'Active' : 'Inactive'}</span>
-									</td>
-									<td className="px-4 py-3 text-sm text-text-secondary">{campaign.content}</td>
-									<td className="px-4 py-3 text-sm text-text-secondary">{new Date(campaign.created_at).toLocaleDateString()}</td>
+							{paginatedInteractionLogs.map((log) => (
+								<tr key={log.id} className="px-4 py-4 border-b last:border-b-0 border-border-color hover:bg-gray-50/50 cursor-pointer ">
+									<td className="px-4 py-3 text-sm text-text-secondary">{log.user_instagram_id}</td>
+									<td className="px-4 py-3 text-sm font-medium text-secondary text-nowrap">{log.username}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary">{log.interaction_type}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary truncate max-w-xs">{log.message}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary truncate max-w-xs">{log.ai_response}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary">{new Date(log.created_at).toLocaleDateString()}</td>
 									<td className="px-4 py-3 text-right">
-										<div className="flex items-center justify-end gap-2 text-secondary/60">
-											{['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && (
-												<>
-													<button onClick={() => handleOpenUpdate(campaign.id)} className="p-1.5 size-10 rounded-md hover:bg-secondary/10 hover:text-secondary">
-														<span className="material-symbols-outlined text-xl">edit</span>
-													</button>
-													<button onClick={() => handleOpenDelete(campaign.id)} className="p-1.5 size-10 rounded-md hover:bg-secondary/10 hover:text-secondary">
-														<span className="material-symbols-outlined text-xl">delete</span>
-													</button>
-												</>
+										<div className="flex items-center justify-end gap-3">
+											{getUserFromStorage()?.user?.role === 'SUPERADMIN' && (
+												<button onClick={() => handleOpenDelete(log.id)} className="p-1.5 size-10 rounded-md hover:bg-secondary/10 hover:text-secondary">
+													<span className="material-symbols-outlined text-xl">delete</span>
+												</button>
 											)}
-											{!['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && 'No Action'}
+											{getUserFromStorage()?.user?.role !== 'SUPERADMIN' && 'No Action'}
 										</div>
 									</td>
 								</tr>

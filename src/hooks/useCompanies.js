@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { notify } from '../lib/toastify'
-import { companyService } from '../services/companyService'
+import { companyService } from '../services/companies.service'
 import { handleApiError } from '../lib/helpers/handleApiError'
 import { getUserFromStorage } from '../lib/helpers/userStore'
 
@@ -9,16 +9,19 @@ export const useCompanies = () => {
 	const [companies, setCompanies] = useState([])
 
 	const fetchCompanies = useCallback(async () => {
-		if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-			setLoading(true)
-			try {
+		setLoading(true)
+		try {
+			if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
 				const data = await companyService.getAll()
 				setCompanies(data)
-			} catch (err) {
-				handleApiError(err, 'Companies yuklashda xatolik!')
-			} finally {
-				setLoading(false)
+			} else {
+				const data = await companyService.getCUser()
+				setCompanies(data)
 			}
+		} catch (err) {
+			handleApiError(err, 'Companies yuklashda xatolik!')
+		} finally {
+			setLoading(false)
 		}
 	}, [getUserFromStorage])
 
@@ -33,31 +36,13 @@ export const useCompanies = () => {
 		}
 	}, [])
 
-	const fetchCompaniesUser = useCallback(async () => {
-		if (getUserFromStorage()?.user.role !== 'SUPERADMIN') {
-			setLoading(true)
-			try {
-				const data = await companyService.getCUser()
-				setCompanies(data)
-			} catch (err) {
-				handleApiError(err, 'Companies User yuklashda xatolik!')
-			} finally {
-				setLoading(false)
-			}
-		}
-	}, [getUserFromStorage])
-
 	const handleCreate = useCallback(
 		async (company) => {
 			if (['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role)) {
 				setLoading(true)
 				try {
 					await companyService.create(company)
-					if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-						fetchCompanies()
-					} else {
-						fetchCompaniesUser()
-					}
+					fetchCompanies()
 					notify('success', 'Company yaratildi!')
 				} catch (err) {
 					handleApiError(err, 'Company yaratishda xatolik!')
@@ -66,7 +51,7 @@ export const useCompanies = () => {
 				}
 			}
 		},
-		[fetchCompanies, fetchCompaniesUser]
+		[fetchCompanies]
 	)
 
 	const handleUpdate = useCallback(
@@ -76,11 +61,7 @@ export const useCompanies = () => {
 				setLoading(true)
 				try {
 					await companyService.update(id, company)
-					if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-						fetchCompanies()
-					} else {
-						fetchCompaniesUser()
-					}
+					fetchCompanies()
 					notify('success', 'Company yangilandi!')
 				} catch (err) {
 					handleApiError(err, 'Company yangilashda xatolik!')
@@ -89,7 +70,7 @@ export const useCompanies = () => {
 				}
 			}
 		},
-		[fetchCompanies, fetchCompaniesUser]
+		[fetchCompanies]
 	)
 
 	const handleDelete = useCallback(
@@ -98,11 +79,7 @@ export const useCompanies = () => {
 				setLoading(true)
 				try {
 					await companyService.delete(id)
-					if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-						fetchCompanies()
-					} else {
-						fetchCompaniesUser()
-					}
+					fetchCompanies()
 					notify('success', "Company o'chirildi!")
 				} catch (err) {
 					handleApiError(err, "Company o'chirishda xatolik!")
@@ -111,16 +88,12 @@ export const useCompanies = () => {
 				}
 			}
 		},
-		[fetchCompanies, fetchCompaniesUser]
+		[fetchCompanies]
 	)
 
 	useEffect(() => {
-		if (getUserFromStorage()?.user?.role === 'SUPERADMIN') {
-			fetchCompanies()
-		} else {
-			fetchCompaniesUser()
-		}
-	}, [fetchCompanies, getUserFromStorage])
+		fetchCompanies()
+	}, [fetchCompanies])
 
 	return {
 		loading,
@@ -130,6 +103,5 @@ export const useCompanies = () => {
 		handleUpdate,
 		handleDelete,
 		fetchCompanies,
-		fetchCompaniesUser,
 	}
 }

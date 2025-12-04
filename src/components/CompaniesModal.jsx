@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { FileUploader } from './UI/UploadImageFirebase'
 
 export const CreateCompanyModal = ({ closeModal, handleCreate }) => {
 	const [formData, setFormData] = useState({
@@ -6,9 +7,9 @@ export const CreateCompanyModal = ({ closeModal, handleCreate }) => {
 		contact_email: '',
 		contact_number: '',
 		description: '',
+		instagram_id: '',
 		instagram_token: '',
 		instagram_verify_token: '',
-		logo_path: '',
 		openai_token: '',
 		title: '',
 	})
@@ -30,35 +31,19 @@ export const CreateCompanyModal = ({ closeModal, handleCreate }) => {
 			{Object.keys(formData).map((key) => (
 				<label key={key} className="flex flex-col min-w-40 flex-1">
 					<p className="text-secondary text-sm font-medium pb-2">{key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())} *</p>
-					<input
-						name={key}
-						required
-						type={key.includes('email') ? 'email' : 'text'}
-						value={formData[key]}
-						onChange={handleChange}
-						className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 
-									bg-background-light dark:bg-background-dark text-secondary p-[15px]"
-						placeholder={`Enter ${key.replace(/_/g, ' ')}`}
-					/>
+					<input name={key} required type={key.includes('email') ? 'email' : 'text'} value={formData[key]} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`Enter ${key.replace(/_/g, ' ')}`} />
 				</label>
 			))}
+			<div className="flex flex-col">
+				<p className="text-secondary text-sm font-medium pb-2">Logo Path</p>
+				<FileUploader folder="companies" type="image" fileUrl={formData.logo_path} onChange={(url) => setFormData({ ...formData, logo_path: url })} />
+			</div>
 		</form>
 	)
 }
 
 export const EditCompanyModal = ({ id, closeModal, fetchCompany, handleUpdate }) => {
-	const [formData, setFormData] = useState({
-		title: '',
-		description: '',
-		contact_email: '',
-		contact_number: '',
-		address: '',
-		logo_path: '',
-		instagram_token: '',
-		instagram_verify_token: '',
-		openai_token: '',
-		is_active: true,
-	})
+	const [formData, setFormData] = useState(null)
 
 	const [loading, setLoading] = useState(true)
 
@@ -68,18 +53,7 @@ export const EditCompanyModal = ({ id, closeModal, fetchCompany, handleUpdate })
 			const data = await fetchCompany(id)
 
 			if (data) {
-				setFormData({
-					title: data.title || '',
-					description: data.description || '',
-					contact_email: data.contact_email || '',
-					contact_number: data.contact_number || '',
-					address: data.address || '',
-					logo_path: data.logo_path || '',
-					instagram_token: data.instagram_token || '',
-					instagram_verify_token: data.instagram_verify_token || '',
-					openai_token: data.openai_token || '',
-					is_active: data.is_active ?? true,
-				})
+				setFormData(data)
 			}
 
 			setLoading(false)
@@ -104,115 +78,51 @@ export const EditCompanyModal = ({ id, closeModal, fetchCompany, handleUpdate })
 			id="companyEdit"
 			className="space-y-6"
 		>
-			{/* title */}
 			<label className="flex flex-col">
 				<p className="text-secondary text-sm font-medium pb-2">Title *</p>
-				<input
-					name="title"
-					required
-					value={formData.title}
-					onChange={handleChange}
-					className="form-input h-12 rounded-lg border border-gray-200
-                    dark:border-white/20 bg-background-light dark:bg-background-dark 
-                    text-secondary p-[15px]"
-					placeholder="Enter title"
-				/>
+				<input name="title" required value={formData.title} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200  dark:border-white/20 bg-background-light dark:bg-background-dark   text-secondary p-[15px]" placeholder="Enter title" />
 			</label>
 
-			{/* description */}
 			<label className="flex flex-col">
 				<p className="text-secondary text-sm font-medium pb-2">Description *</p>
-				<input
-					name="description"
-					required
-					value={formData.description}
-					onChange={handleChange}
-					className="form-input h-12 rounded-lg border border-gray-200
-                    dark:border-white/20 bg-background-light dark:bg-background-dark 
-                    text-secondary p-[15px]"
-					placeholder="Enter description"
-				/>
+				<input name="description" required value={formData.description} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark  text-secondary p-[15px]" placeholder="Enter description" />
 			</label>
 
-			{/* contact email */}
 			<label className="flex flex-col">
 				<p className="text-secondary text-sm font-medium pb-2">Contact Email *</p>
-				<input
-					type="email"
-					name="contact_email"
-					required
-					value={formData.contact_email}
-					onChange={handleChange}
-					className="form-input h-12 rounded-lg border border-gray-200 
-                    dark:border-white/20 bg-background-light dark:bg-background-dark 
-                    text-secondary p-[15px]"
-					placeholder="Enter contact email"
-				/>
+				<input type="email" name="contact_email" required value={formData.contact_email} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200   dark:border-white/20 bg-background-light dark:bg-background-dark   text-secondary p-[15px]" placeholder="Enter contact email" />
 			</label>
 
-			{/* contact number */}
 			<label className="flex flex-col">
 				<p className="text-secondary text-sm font-medium pb-2">Contact Number *</p>
-				<input
-					name="contact_number"
-					required
-					value={formData.contact_number}
-					onChange={handleChange}
-					className="form-input h-12 rounded-lg border border-gray-200 
-                    dark:border-white/20 bg-background-light dark:bg-background-dark 
-                    text-secondary p-[15px]"
-					placeholder="Enter contact number"
-				/>
+				<input name="contact_number" required value={formData.contact_number} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200  dark:border-white/20 bg-background-light dark:bg-background-dark  text-secondary p-[15px]" placeholder="Enter contact number" />
 			</label>
 
-			{/* address */}
 			<label className="flex flex-col">
 				<p className="text-secondary text-sm font-medium pb-2">Address *</p>
-				<input
-					name="address"
-					required
-					value={formData.address}
-					onChange={handleChange}
-					className="form-input h-12 rounded-lg border border-gray-200 
-                    dark:border-white/20 bg-background-light dark:bg-background-dark 
-                    text-secondary p-[15px]"
-					placeholder="Enter address"
-				/>
+				<input name="address" required value={formData.address} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200   dark:border-white/20 bg-background-light dark:bg-background-dark   text-secondary p-[15px]" placeholder="Enter address" />
 			</label>
 
-			{/* logo */}
-			<label className="flex flex-col">
-				<p className="text-secondary text-sm font-medium pb-2">Logo Path</p>
-				<input
-					name="logo_path"
-					value={formData.logo_path}
-					onChange={handleChange}
-					className="form-input h-12 rounded-lg border border-gray-200 
-                    dark:border-white/20 bg-background-light dark:bg-background-dark 
-                    text-secondary p-[15px]"
-					placeholder="Enter logo URL"
-				/>
-			</label>
-
-			{/* instagram token */}
 			<label className="flex flex-col">
 				<p className="text-secondary text-sm font-medium pb-2">Instagram Token</p>
 				<input name="instagram_token" value={formData.instagram_token} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200" placeholder="Enter Instagram token" />
 			</label>
 
-			{/* instagram verify token */}
 			<label className="flex flex-col">
 				<p className="text-secondary text-sm font-medium pb-2">Instagram Verify Token</p>
 				<input name="instagram_verify_token" value={formData.instagram_verify_token} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200" placeholder="Enter verify token" />
 			</label>
 
-			{/* openai token */}
+			<label className="flex flex-col">
+				<p className="text-secondary text-sm font-medium pb-2">Instagram Id</p>
+				<input name="instagram_verify_token" value={formData.instagram_id} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200" placeholder="Enter instagram id" />
+			</label>
+
 			<label className="flex flex-col">
 				<p className="text-secondary text-sm font-medium pb-2">OpenAI Token</p>
 				<input name="openai_token" value={formData.openai_token} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200" placeholder="Enter OpenAI token" />
 			</label>
 
-			{/* is_active */}
 			<label className="flex flex-col">
 				<p className="text-secondary text-sm font-medium pb-2">Status *</p>
 				<select name="is_active" value={formData.is_active ? 'true' : 'false'} onChange={(e) => setFormData({ ...formData, is_active: e.target.value === 'true' })} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark">
@@ -220,6 +130,11 @@ export const EditCompanyModal = ({ id, closeModal, fetchCompany, handleUpdate })
 					<option value="false">Inactive</option>
 				</select>
 			</label>
+
+			<div className="flex flex-col">
+				<p className="text-secondary text-sm font-medium pb-2">Logo Path</p>
+				<FileUploader folder="companies" type="image" fileUrl={formData.logo_path} onChange={(url) => setFormData({ ...formData, logo_path: url })} />
+			</div>
 		</form>
 	)
 }

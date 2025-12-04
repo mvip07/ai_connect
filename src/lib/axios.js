@@ -34,6 +34,13 @@ API.interceptors.request.use(
 API.interceptors.response.use(
 	(response) => response,
 	(error) => {
+		// if (error.code === 'ERR_NETWORK') {
+		// 	clearToken()
+		// 	if (typeof window !== 'undefined') {
+		// 		window.location.href = '/login'
+		// 	}
+		// }
+
 		if (error.response && error.response.status === 401) {
 			const currentPath = typeof window !== 'undefined' ? window.location.pathname : ''
 			if (currentPath.startsWith('/admin')) {
