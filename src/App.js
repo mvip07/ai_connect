@@ -13,6 +13,12 @@ import CompanyDetail from './pages/CompanyDetail'
 import InteractionLogs from './pages/InteractionLogs'
 
 import { ModalProvider } from './components/UI/Modal'
+import CompanyLids from './pages/CompanyLid'
+import UserDetail from './pages/details/UserDetail'
+import AiConfigDetail from './pages/details/AiConfigDetail'
+import InteractionLogDetail from './pages/details/InteractionLogDetail'
+import CampaignDetail from './pages/details/CampaignDetail'
+import CompanyLidDetail from './pages/details/CompanyLidDetail'
 
 function App() {
 	return (
@@ -32,6 +38,13 @@ function App() {
 					<Route path="/operator" element={<OPerator />} />
 					<Route path="/ai/configs" element={<AiConfigs />} />
 					<Route path="/interaction" element={<InteractionLogs />} />
+					<Route path="/lids" element={<CompanyLids />} />
+
+					<Route path="/client/companies/:id/user/:detailId" element={<UserDetail />} />
+					<Route path="/client/companies/:id/ai/:detailId" element={<AiConfigDetail />} />
+					<Route path="/client/companies/:id/log/:detailId" element={<InteractionLogDetail />} />
+					<Route path="/client/companies/:id/lid/:detailId" element={<CompanyLidDetail />} />
+					<Route path="/client/companies/:id/campaign/:detailId" element={<CampaignDetail />} />
 				</Routes>
 			</ModalProvider>
 		</>

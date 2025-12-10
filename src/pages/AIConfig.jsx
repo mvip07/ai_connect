@@ -4,6 +4,7 @@ import { useModal } from '../components/UI/Modal'
 import { AiConfigsModal } from '../components/AIConfigsModal'
 import { useAiConfigs } from '../hooks/useAiConfig'
 import { getUserFromStorage } from '../lib/helpers/userStore'
+import { Link } from 'react-router-dom'
 
 export default function AiConfigs({ companyIdProps }) {
 	const companyId = companyIdProps || getUserFromStorage()?.user?.company_id
@@ -131,7 +132,11 @@ export default function AiConfigs({ companyIdProps }) {
 						<tbody>
 							{paginatedAiConfigs.map((config) => (
 								<tr key={config.id} className="border-b border-border-color last:border-b-0 hover:bg-gray-50/50 cursor-pointer">
-									<td className="px-4 py-3 text-sm text-text-secondary">{config.template_name}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary">
+										<Link to={`ai/${config.id}`}>
+											{config.template_name}
+										</Link>
+									</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">{config.language}</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">
 										<span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${config.use_openai ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>{config.use_openai ? 'Yes' : 'No'}</span>
@@ -182,6 +187,6 @@ export default function AiConfigs({ companyIdProps }) {
 					</div>
 				</div>
 			</div>
-		</MainLayout>
+		</MainLayout >
 	)
 }

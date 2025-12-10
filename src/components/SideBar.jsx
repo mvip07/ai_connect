@@ -1,13 +1,26 @@
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { clearToken, getUserFromStorage } from '../lib/helpers/userStore'
-import { resetOpenedSection } from '../lib/helpers/companyDetailState'
 
 export const ROLE_PAGES = {
-	SUPERADMIN: ['/dashboard', '/client/companies', '/client/companies/:id', '/settings'],
-	ADMIN: ['/dashboard', '/ai/configs', '/interaction', '/users', '/campaigns', '/settings'],
-	MANAGER: ['/dashboard', '/ai/configs', '/interaction', '/users', '/campaigns', '/settings'],
-	OPERATOR: ['/dashboard', '/ai/configs', '/interaction', '/users', '/campaigns', '/settings'],
+	SUPERADMIN: [
+		'/dashboard',
+		'/client/companies',
+		'/client/companies/:id',
+		'/settings',
+		"/client/companies",
+		"/client/companies/:id",
+		"/client/companies/:id/user/:detailId",
+		"/client/companies/:id/ai/:detailId",
+		"/client/companies/:id/log/:detailId",
+		"/client/companies/:id/lid/:detailId",
+		"/client/companies/:id/campaign/:detailId",
+		"/dashboard",
+		"/settings"
+	],
+	ADMIN: ['/dashboard', '/ai/configs', '/lids', '/interaction', '/users', '/campaigns', '/settings'],
+	MANAGER: ['/dashboard', '/ai/configs', '/lids', '/interaction', '/users', '/campaigns', '/settings'],
+	OPERATOR: ['/dashboard', '/ai/configs', '/lids', '/interaction', '/users', '/campaigns', '/settings'],
 }
 
 const SIDEBAR_ITEMS = [
@@ -17,21 +30,21 @@ const SIDEBAR_ITEMS = [
 	{ path: '/campaigns', icon: 'track_changes', label: 'Campaigns' },
 	{ path: '/users', icon: 'group', label: 'Users' },
 	{ path: '/interaction', icon: 'list_alt', label: 'Interaction Logs' },
+	{ path: '/lids', icon: 'list_alt', label: 'Lids' },
 	{ path: '/settings', icon: 'settings', label: 'Settings' },
 ]
 
 const matchRoute = (path, pattern) => {
-	if (pattern.includes(':id')) {
-		const regex = new RegExp('^' + pattern.replace(':id', '[^/]+') + '$')
-		return regex.test(path)
-	}
-	return path === pattern
-}
+	const regexPattern = pattern.replace(/:[^/]+/g, '[^/]+');
+	const regex = new RegExp(`^${regexPattern}$`);
+
+	return regex.test(path);
+};
 
 const SideBar = React.memo(function SideBar({ active, userData }) {
 	const navigate = useNavigate()
-	const { pathname } = useLocation()
 	const { id } = useParams()
+	const { pathname } = useLocation()
 
 	const role = userData?.role || getUserFromStorage()?.user?.role
 	const allowedPages = ROLE_PAGES[role] || []
@@ -44,6 +57,28 @@ const SideBar = React.memo(function SideBar({ active, userData }) {
 	}, [pathname, allowedPages, navigate])
 
 	const filteredItems = SIDEBAR_ITEMS.filter((item) => allowedPages.some((p) => matchRoute(item.path, p)))
+
+	const goBack = () => {
+		const path = window.location.pathname
+
+		if (/\/client\/companies\/[^/]+\/\w+\/[^/]+$/.test(path)) {
+			return navigate(`/client/companies/${id}`)
+		}
+
+		const openedSection = localStorage.getItem('openedSection')
+		if (openedSection) {
+			localStorage.removeItem('openedSection')
+			return
+		}
+
+		if (/\/client\/companies\/[^/]+$/.test(path)) {
+			return navigate(`/client/companies`)
+		}
+
+		navigate(-1)
+
+	}
+
 
 	return (
 		<nav className={`h-full w-20 flex-col items-center border-r border-[#E0E7FF] bg-white pt-6 pb-4 transtion-all duration-300 ease-in-out ${active ? 'fixed top-0 start-0 w-20 flex z-50 lg:static lg:flex' : 'hidden lg:flex'}`}>
@@ -58,13 +93,7 @@ const SideBar = React.memo(function SideBar({ active, userData }) {
 
 			<div className="flex flex-col items-center gap-2">
 				{getUserFromStorage()?.user?.role === 'SUPERADMIN' && id && (
-					<div
-						onClick={() => {
-							resetOpenedSection()
-							window.location.reload()
-						}}
-						className="group relative flex cursor-pointer items-center justify-center rounded-lg p-3 bg-primary/20 text-primary"
-					>
+					<div onClick={() => goBack()} className="group relative flex cursor-pointer items-center justify-center rounded-lg p-3 bg-primary/20 text-primary">
 						<span className="material-symbols-outlined">arrow_back</span>
 						<span className="absolute left-full ml-4 hidden -translate-x-2 whitespace-nowrap rounded-md bg-[#1D1F23] px-2 py-1 text-xs text-white group-hover:block">Back</span>
 					</div>

@@ -6,6 +6,8 @@ import InteractionLogs from './InteractionLogs'
 import Users from './Users'
 import MainLayout from '../components/layout/MainLayout'
 import { getOpenedSection, setOpenedSection } from '../lib/helpers/companyDetailState'
+import CompanyLids from './CompanyLid'
+import CompanyInfo from './CompanyInfo'
 
 export default function CompanyDetail() {
 	const { id } = useParams()
@@ -24,10 +26,12 @@ export default function CompanyDetail() {
 	if (opened) {
 		return (
 			<>
+				{opened === 'info' && <CompanyInfo companyIdProps={id} />}
 				{opened === 'ai' && <AiConfigs companyIdProps={id} />}
 				{opened === 'campaigns' && <Campaigns companyIdProps={id} />}
 				{opened === 'logs' && <InteractionLogs companyIdProps={id} />}
 				{opened === 'users' && <Users companyIdProps={id} />}
+				{opened === 'lids' && <CompanyLids companyIdProps={id} />}
 			</>
 		)
 	}
@@ -35,6 +39,15 @@ export default function CompanyDetail() {
 	return (
 		<MainLayout>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+				{/* COMPANY INFO */}
+				<div onClick={() => openSection('info')} className="bg-white border rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition-all">
+					<div className="flex items-center justify-between">
+						<h2 className="text-secondary text-xl font-semibold">Company Info</h2>
+						<span className="material-symbols-outlined text-primary">chevron_right</span>
+					</div>
+					<p className="text-sm text-gray-500 mt-2">View company details</p>
+				</div>
+
 				{/* AI CONFIGS */}
 				<div onClick={() => openSection('ai')} className="bg-white border rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition-all">
 					<div className="flex items-center justify-between">
@@ -69,6 +82,15 @@ export default function CompanyDetail() {
 						<span className="material-symbols-outlined text-primary">chevron_right</span>
 					</div>
 					<p className="text-sm text-gray-500 mt-2">Manage company users</p>
+				</div>
+
+				{/* COMPANY LIDS */}
+				<div onClick={() => openSection('lids')} className="bg-white border rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition-all">
+					<div className="flex items-center justify-between">
+						<h2 className="text-secondary text-xl font-semibold">Company Lids</h2>
+						<span className="material-symbols-outlined text-primary">chevron_right</span>
+					</div>
+					<p className="text-sm text-gray-500 mt-2">Manage company lids</p>
 				</div>
 			</div>
 		</MainLayout>

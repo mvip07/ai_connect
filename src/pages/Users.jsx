@@ -1,10 +1,10 @@
-import { NavLink } from 'react-router-dom'
-import MainLayout from '../components/layout/MainLayout'
+import { useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
+import { useUsers } from '../hooks/useUsers'
 import { useModal } from '../components/UI/Modal'
 import { UsersModal } from '../components/UsersModal'
-import { useUsers } from '../hooks/useUsers'
 import { getUserFromStorage } from '../lib/helpers/userStore'
-import { useState } from 'react'
+import MainLayout from '../components/layout/MainLayout'
 
 export default function Users({ companyIdProps }) {
 	const companyId = companyIdProps || getUserFromStorage()?.user?.company_id
@@ -140,13 +140,15 @@ export default function Users({ companyIdProps }) {
 							{paginatedUsers.map((user) => (
 								<tr key={user.id} className="px-4 py-4 border-b border-border-color hover:bg-gray-50/50 cursor-pointer last:border-b-0">
 									<td className="px-4 py-3 text-sm text-text-secondary">
-										<div className="flex items-center gap-3">
-											<img className="size-10 rounded-full" src={user?.pic_path} />
-											<div className="flex flex-col">
-												<p className="font-semibold text-secondary">{user.full_name}</p>
-												<p className="text-sm text-secondary/60">@{user.username}</p>
+										<Link to={`user/${user.id}`}>
+											<div className="flex items-center gap-3">
+												<img className="size-10 rounded-full" src={user?.pic_path} />
+												<div className="flex flex-col">
+													<p className="font-semibold text-secondary">{user.full_name}</p>
+													<p className="text-sm text-secondary/60">@{user.username}</p>
+												</div>
 											</div>
-										</div>
+										</Link>
 									</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">{user.phone_number}</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">

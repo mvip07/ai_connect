@@ -4,6 +4,7 @@ import MainLayout from '../components/layout/MainLayout'
 import { InteractionLogsModal } from '../components/InteractionModal'
 import { getUserFromStorage } from '../lib/helpers/userStore'
 import { useInteractionLogs } from '../hooks/useInteractionLogs'
+import { Link } from 'react-router-dom'
 
 export default function InteractionLogs({ companyIdProps }) {
 	const companyId = companyIdProps || getUserFromStorage()?.user?.company_id
@@ -133,7 +134,11 @@ export default function InteractionLogs({ companyIdProps }) {
 						<tbody>
 							{paginatedInteractionLogs.map((log) => (
 								<tr key={log.id} className="px-4 py-4 border-b last:border-b-0 border-border-color hover:bg-gray-50/50 cursor-pointer ">
-									<td className="px-4 py-3 text-sm text-text-secondary">{log.user_instagram_id}</td>
+									<td className="px-4 py-3 text-sm text-text-secondary">
+										<Link to={`log/${log.id}`}>
+											{log.user_instagram_id}
+										</Link>
+									</td>
 									<td className="px-4 py-3 text-sm font-medium text-secondary text-nowrap">{log.username}</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">{log.interaction_type}</td>
 									<td className="px-4 py-3 text-sm text-text-secondary truncate max-w-xs">{log.message}</td>

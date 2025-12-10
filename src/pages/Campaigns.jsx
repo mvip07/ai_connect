@@ -4,6 +4,7 @@ import { useModal } from '../components/UI/Modal'
 import MainLayout from '../components/layout/MainLayout'
 import { CompaignsModal } from '../components/CompaignsModal'
 import { useCampaigns } from '../hooks/useCompaigns'
+import { Link } from 'react-router-dom'
 
 export default function Campaigns({ companyIdProps }) {
 	const companyId = companyIdProps || getUserFromStorage()?.user?.company_id
@@ -137,7 +138,11 @@ export default function Campaigns({ companyIdProps }) {
 						<tbody>
 							{paginatedCampaigns.map((campaign) => (
 								<tr key={campaign.id} className="border-b border-border-color hover:bg-gray-50/50 cursor-pointer last:border-b-0">
-									<td className="px-4 py-3 text-sm font-medium text-secondary text-nowrap">{campaign.title}</td>
+									<td className="px-4 py-3 text-sm font-medium text-secondary text-nowrap">
+										<Link to={`campaign/${campaign.id}`}>
+											{campaign.title}
+										</Link>
+									</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">
 										<span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${campaign.is_active ? 'bg-success/10 text-success' : 'bg-error/10 text-error'}`}>{campaign.is_active ? 'Active' : 'Inactive'}</span>
 									</td>
