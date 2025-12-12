@@ -23,7 +23,7 @@ export const useCampaigns = (companyId) => {
 		} finally {
 			setLoading(false)
 		}
-	}, [getUserFromStorage])
+	}, [])
 
 	const fetchCampaign = useCallback(async (id) => {
 		setLoading(true)

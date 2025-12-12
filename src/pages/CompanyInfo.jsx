@@ -62,10 +62,6 @@ export default function CompanyInfo({ companyIdProps }) {
                             <p className="overflow-auto">{company.instagram_token}</p>
                         </div>
                         <div>
-                            <p className="font-semibold">Instagram Verify Token:</p>
-                            <p>{company.instagram_verify_token}</p>
-                        </div>
-                        <div>
                             <p className="font-semibold">OpenAI Token:</p>
                             <p className="overflow-auto">{company.openai_token}</p>
                         </div>

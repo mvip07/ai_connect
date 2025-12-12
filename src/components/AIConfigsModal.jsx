@@ -6,7 +6,6 @@ export const CreateAiConfigModal = ({ closeModal, handleCreate }) => {
 	const { companies } = useCompanies()
 	const [formData, setFormData] = useState({
 		company_id: '',
-		language: '',
 		template_name: '',
 		template_text: '',
 		use_openai: false,
@@ -40,10 +39,6 @@ export const CreateAiConfigModal = ({ closeModal, handleCreate }) => {
 					</select>
 				</label>
 			)}
-			<label key="language" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Language *</p>
-				<input name="language" required type="text" value={formData.language} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Language" />
-			</label>
 			<label key="template_name" className="flex flex-col min-w-40 flex-1">
 				<p className="text-secondary text-sm font-medium pb-2">Template Name *</p>
 				<input name="template_name" required type="text" value={formData.template_name} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Template Name" />
@@ -73,7 +68,6 @@ export const EditAiConfigModal = ({ id, closeModal, fetchAiConfig, handleUpdate 
 			if (data) {
 				setFormData({
 					company_id: data.company_id || '',
-					language: data.language || '',
 					template_name: data.template_name || '',
 					template_text: data.template_text || '',
 					use_openai: data.use_openai || false,
@@ -115,10 +109,6 @@ export const EditAiConfigModal = ({ id, closeModal, fetchAiConfig, handleUpdate 
 					</select>
 				</label>
 			)}
-			<label key="language" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Language *</p>
-				<input name="language" type="text" value={formData.language} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Language" />
-			</label>
 			<label key="template_name" className="flex flex-col min-w-40 flex-1">
 				<p className="text-secondary text-sm font-medium pb-2">Template Name *</p>
 				<input name="template_name" type="text" value={formData.template_name} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Template Name" />

@@ -9,7 +9,6 @@ export const CreateCompanyModal = ({ closeModal, handleCreate }) => {
 		description: '',
 		instagram_id: '',
 		instagram_token: '',
-		instagram_verify_token: '',
 		openai_token: '',
 		title: '',
 	})
@@ -106,11 +105,6 @@ export const EditCompanyModal = ({ id, closeModal, fetchCompany, handleUpdate })
 			<label className="flex flex-col">
 				<p className="text-secondary text-sm font-medium pb-2">Instagram Token</p>
 				<input name="instagram_token" value={formData.instagram_token} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200" placeholder="Enter Instagram token" />
-			</label>
-
-			<label className="flex flex-col">
-				<p className="text-secondary text-sm font-medium pb-2">Instagram Verify Token</p>
-				<input name="instagram_verify_token" value={formData.instagram_verify_token} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200" placeholder="Enter verify token" />
 			</label>
 
 			<label className="flex flex-col">

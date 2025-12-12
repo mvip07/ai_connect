@@ -21,7 +21,7 @@ export default function AiConfigs({ companyIdProps }) {
 	const filteredAiConfigs =
 		aiConfigs?.filter((config) => {
 			const query = searchQuery.toLowerCase()
-			return config.template_name.toLowerCase().includes(query) || config.language.toLowerCase().includes(query)
+			return config.template_name.toLowerCase().includes(query)
 		}) || []
 
 	const sortedAiConfigs = [...filteredAiConfigs].sort((a, b) => {
@@ -123,7 +123,6 @@ export default function AiConfigs({ companyIdProps }) {
 						<thead>
 							<tr className="border-b border-border-color">
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Template Name</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Language</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Use OpenAI</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Template Text</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">Actions</th>
@@ -137,7 +136,6 @@ export default function AiConfigs({ companyIdProps }) {
 											{config.template_name}
 										</Link>
 									</td>
-									<td className="px-4 py-3 text-sm text-text-secondary">{config.language}</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">
 										<span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${config.use_openai ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>{config.use_openai ? 'Yes' : 'No'}</span>
 									</td>

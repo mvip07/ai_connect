@@ -135,7 +135,6 @@ export default function Companies() {
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Address</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Instagram Id</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Instagram Token</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Instagram Verify Token</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">OpenAI Token</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Status</th>
 								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Date Added</th>
@@ -159,7 +158,6 @@ export default function Companies() {
 									<td className="px-4 py-3 text-sm text-text-secondary">{company.address}</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">{company.instagram_id}</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">{company?.instagram_token?.length > 10 ? company.instagram_token.slice(0, 10) + '...' : company.instagram_token}</td>
-									<td className="px-4 py-3 text-sm text-text-secondary">{company?.instagram_verify_token?.length > 10 ? company?.instagram_verify_token?.slice(0, 10) + '...' : company?.instagram_verify_token}</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">{company?.openai_token?.length > 10 ? company?.openai_token?.slice(0, 10) + '...' : company?.openai_token}</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">
 										<span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${company.is_active ? 'bg-success/10 text-success' : 'bg-error/10 text-error'}`}>{company.is_active ? 'Active' : 'Inactive'}</span>
