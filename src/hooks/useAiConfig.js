@@ -7,7 +7,6 @@ import { getUserFromStorage } from '../lib/helpers/userStore'
 export const useAiConfigs = (companyId) => {
 	const [loading, setLoading] = useState(false)
 	const [aiConfigs, setAiConfigs] = useState([])
-	console.log(companyId)
 	const fetchAiConfigs = useCallback(async () => {
 		setLoading(true)
 		try {

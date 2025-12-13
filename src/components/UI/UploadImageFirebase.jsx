@@ -12,7 +12,6 @@ export const FileUploader = ({ fileUrl, folder, type = 'any', onChange }) => {
 		try {
 			setUploading(true)
 			const url = await uploadFileToFirebase(file, folder, setProgress)
-			console.log(url)
 			onChange(url)
 			notify('success', 'File uploaded successfully!')
 		} catch {

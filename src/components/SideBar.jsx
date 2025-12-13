@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { clearToken, getUserFromStorage } from '../lib/helpers/userStore'
+import { companyService } from '../services/companies.service'
 
 export const ROLE_PAGES = {
 	SUPERADMIN: [
@@ -45,6 +46,15 @@ const SideBar = React.memo(function SideBar({ active, userData }) {
 	const navigate = useNavigate()
 	const { id } = useParams()
 	const { pathname } = useLocation()
+	const [company, setCompany] = useState({})
+
+	useEffect(() => {
+		const load = async () => {
+			const res = await companyService.getById(userData.company_id || getUserFromStorage()?.user.company_id)
+			setCompany(res)
+		}
+		load()
+	}, [])
 
 	const role = userData?.role || getUserFromStorage()?.user?.role
 	const allowedPages = ROLE_PAGES[role] || []
@@ -76,19 +86,11 @@ const SideBar = React.memo(function SideBar({ active, userData }) {
 		}
 
 		navigate(-1)
-
 	}
-
-
 	return (
 		<nav className={`h-full w-20 flex-col items-center border-r border-[#E0E7FF] bg-white pt-6 pb-4 transtion-all duration-300 ease-in-out ${active ? 'fixed top-0 start-0 w-20 flex z-50 lg:static lg:flex' : 'hidden lg:flex'}`}>
 			<div className="mb-8">
-				<div
-					className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-					style={{
-						backgroundImage: `url("https://lh3.googleusercontent.com/aida-public/AB6AXuA_TynlpL-APzoIRRg9vWZQi5643L1SkpRjsa4pPztAsuR150bV7lSyOQdy5Dq_kHsQG3egYlDoz9HwO8FLQTiEb5_JAv2w_nQiBpSrfrBPsyqcFx8ZN4nwRSZ_Fc09PVhhuVCEqMlVDgGwRocsSnm0-SNsvlRFEwd5zjw7pXYV5VuTILneihg3SMmAnZgtfQe0sBQkFfG7mOlsGJfroUSf04t8fHPXzUJEJ0VxJAL9KSeCROtKcT0vq6UXtNkYgtAVVl8XF2Dqdq1F")`,
-					}}
-				></div>
+				<div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style={{ backgroundImage: `url(${company?.logo_path || ''} )`, }}></div>
 			</div>
 
 			<div className="flex flex-col items-center gap-2">
