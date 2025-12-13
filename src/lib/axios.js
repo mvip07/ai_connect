@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { clearToken } from './helpers/userStore'
 import { HOST } from '../constants/Host'
-import { redirectToLogin } from './helpers/redirectToLogin'
 
 const API = axios.create({
 	baseURL: HOST,
@@ -35,7 +34,7 @@ API.interceptors.response.use(
 	(res) => res,
 	(err) => {
 		if (err?.response?.status === 401) {
-			clearToken()
+			return clearToken()
 		}
 		return Promise.reject(err)
 	}
