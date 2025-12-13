@@ -1,57 +1,43 @@
 import axios from 'axios'
 import { clearToken } from './helpers/userStore'
 import { HOST } from '../constants/Host'
+import { redirectToLogin } from './helpers/redirectToLogin'
 
-const containsFiles = (data) => {
-	if (typeof data !== 'object' || data === null) return false
-	for (const key in data) {
-		const value = data[key]
-		if (value instanceof File || value instanceof Blob) {
-			return true
-		}
+const API = axios.create({
+	baseURL: HOST,
+	withCredentials: true,
+})
+
+API.interceptors.request.use((config) => {
+	let token = ''
+
+	try {
+		const stored = localStorage.getItem('AI_CONNECT')
+		if (stored) token = JSON.parse(stored)?.access_token || ''
+	} catch {}
+
+	if (token) {
+		config.headers.Authorization = `Bearer ${token}`
 	}
-	return false
-}
 
-const API = axios.create({ baseURL: HOST })
+	if (!(config.data instanceof FormData)) {
+		config.headers['Content-Type'] = 'application/json'
+	}
 
-API.interceptors.request.use(
-	(config) => {
-		let token = ''
-		const stored = localStorage.getItem(process.env.NEXT_PUBLIC_TOKEN_KEY || 'AI_CONNECT')
-		token = stored ? JSON.parse(stored).access_token : ''
-		if (token) config.headers.Authorization = `Bearer ${token}`
-		if (config.data && containsFiles(config.data)) config.headers['Content-Type'] = 'multipart/form-data'
-		else config.headers['Content-Type'] = 'application/json'
-		if (typeof window !== 'undefined') {
-			config.headers['Frontend-Path'] = window.location.pathname
-		}
-		return config
-	},
-	(error) => Promise.reject(error)
-)
+	if (typeof window !== 'undefined') {
+		config.headers['Frontend-Path'] = window.location.pathname
+	}
+
+	return config
+})
 
 API.interceptors.response.use(
-	(response) => response,
-	(error) => {
-		// if (error.code === 'ERR_NETWORK') {
-		// 	clearToken()
-		// 	if (typeof window !== 'undefined') {
-		// 		window.location.href = '/login'
-		// 	}
-		// }
-
-		if (error.response && error.response.status === 401) {
-			const currentPath = typeof window !== 'undefined' ? window.location.pathname : ''
-			if (currentPath.startsWith('/admin')) {
-				return Promise.reject(error)
-			}
+	(res) => res,
+	(err) => {
+		if (err?.response?.status === 401) {
 			clearToken()
-			if (typeof window !== 'undefined') {
-				return window.location.href = '/login'
-			}
 		}
-		return Promise.reject(error)
+		return Promise.reject(err)
 	}
 )
 

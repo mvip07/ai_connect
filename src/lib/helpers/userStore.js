@@ -15,9 +15,10 @@ export const getToken = () => {
 }
 
 export const clearToken = () => {
-	if (typeof window === 'undefined') return
-	localStorage.removeItem(TOKEN_KEY)
-	redirectToLogin()
+	if (typeof window !== 'undefined') {
+		localStorage.removeItem(TOKEN_KEY || "AI_CONNECT")
+		redirectToLogin()
+	}
 }
 
 export const setToken = (tokenData) => {

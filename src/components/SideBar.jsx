@@ -50,8 +50,11 @@ const SideBar = React.memo(function SideBar({ active, userData }) {
 
 	useEffect(() => {
 		const load = async () => {
-			const res = await companyService.getById(userData.company_id || getUserFromStorage()?.user.company_id)
-			setCompany(res)
+			const company_id = userData?.company_id || getUserFromStorage()?.user.company_id
+			if (company_id) {
+				const res = await companyService.getById(company_id)
+				setCompany(res)
+			}
 		}
 		load()
 	}, [])

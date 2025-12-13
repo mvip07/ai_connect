@@ -13,8 +13,12 @@ export default function MainLayout({ children }) {
 
 	useEffect(() => {
 		const load = async () => {
-			const data = await userService.getProfile()
-			setUserData(data)
+			try {
+				const data = await userService.getProfile()
+				setUserData(data)
+			} catch (err) {
+				console.log(err)
+			}
 		}
 		load()
 	}, [])
