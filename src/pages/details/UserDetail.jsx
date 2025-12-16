@@ -53,7 +53,7 @@ export default function UserDetail({ companyIdProps }) {
                             <tr className="border-b border-border-color hover:bg-gray-50/50 cursor-pointer last:border-b-0">
                                 <td className="px-4 py-3 text-sm text-text-secondary">
                                     <div className="flex items-center gap-3">
-                                        <img className="size-10 rounded-full" src={user?.pic_path} />
+                                        <img className="size-10 rounded-full" src={user?.pic_path} alt='User Image' />
                                         <div className="flex flex-col">
                                             <p className="font-semibold text-secondary">{user?.full_name}</p>
                                             <p className="text-sm text-secondary/60">@{user?.username}</p>

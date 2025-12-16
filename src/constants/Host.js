@@ -1,1 +1,1 @@
-export const HOST = "https://aiconnect-api.uz"
+export const HOST = "https://45-130-166-193.cloud-xip.com"
