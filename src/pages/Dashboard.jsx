@@ -1,19 +1,21 @@
 import MainLayout from '../components/layout/MainLayout'
 import LineChart from '../components/LineChart'
 import SentimentPieChart from '../components/PieChart'
+import { useLanguageContext } from '../context/Language'
 import { useDashboard } from '../hooks/useDashboard'
 
 export default function Dashboard() {
+	const { t } = useLanguageContext()
 	const { data, data2, loading } = useDashboard()
 
 	if (loading) {
-		return <div>Loading...</div>
+		return <div>{t('LOADING')}...</div>
 	}
 
 	return (
 		<MainLayout>
 			<div className="flex flex-wrap items-center justify-between gap-3 mb-8">
-				<p className="text-secondary text-4xl font-bold leading-tight tracking-tight">Dashboard Overview</p>
+				<p className="text-secondary text-4xl font-bold leading-tight tracking-tight">{t('DASHBOARD_OVERVIEW')}</p>
 				{/* <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-11 px-4 bg-white border border-card-border text-secondary text-sm font-bold">
 					<span className="material-symbols-outlined !text-xl">calendar_month</span>
 					<span className="truncate">Last 30 Days</span>
@@ -21,55 +23,55 @@ export default function Dashboard() {
 			</div>
 			<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
 				<div className="flex flex-col gap-2 rounded-lg bg-white p-6 border border-card-border">
-					<p className="text-text-body text-base font-medium">User Count</p>
+					<p className="text-text-body text-base font-medium">{t('USER_COUNT')}</p>
 					<p className="text-secondary text-3xl font-bold leading-tight">{data?.user_count}</p>
 					<p className="text-success text-base font-bold">+0%</p>
 				</div>
 				<div className="flex flex-col gap-2 rounded-lg bg-white p-6 border border-card-border">
-					<p className="text-text-body text-base font-medium">Company Count</p>
+					<p className="text-text-body text-base font-medium">{t('COMPANY_COUNT')}</p>
 					<p className="text-secondary text-3xl font-bold leading-tight">{data?.company_count}</p>
 					<p className="text-success text-base font-bold">+0%</p>
 				</div>
 				<div className="flex flex-col gap-2 rounded-lg bg-white p-6 border border-card-border">
-					<p className="text-text-body text-base font-medium">Company Lid Count</p>
+					<p className="text-text-body text-base font-medium">{t('COMPANY_LID_COUNT')}</p>
 					<p className="text-secondary text-3xl font-bold leading-tight">{data?.company_lid_count}</p>
 					<p className="text-success text-base font-bold">+0%</p>
 				</div>
 				<div className="flex flex-col gap-2 rounded-lg bg-white p-6 border border-card-border">
-					<p className="text-text-body text-base font-medium">Interaction Count</p>
+					<p className="text-text-body text-base font-medium">{t('INTERACTION_COUNT')}</p>
 					<p className="text-secondary text-3xl font-bold leading-tight">{data?.interaction_count}</p>
 					<p className="text-success text-base font-bold">+0%</p>
 				</div>
 				<div className="flex flex-col gap-2 rounded-lg bg-white p-6 border border-card-border">
-					<p className="text-text-body text-base font-medium">DM Count</p>
+					<p className="text-text-body text-base font-medium">{t('DM_COUNT')}</p>
 					<p className="text-secondary text-3xl font-bold leading-tight">{data?.interaction_dm_count}</p>
 					<p className="text-success text-base font-bold">+0%</p>
 				</div>
 				<div className="flex flex-col gap-2 rounded-lg bg-white p-6 border border-card-border">
-					<p className="text-text-body text-base font-medium">Comment Count</p>
+					<p className="text-text-body text-base font-medium">{t('COMMENT_COUNT')}</p>
 					<p className="text-secondary text-3xl font-bold leading-tight">{data?.interaction_comment_count}</p>
 					<p className="text-success text-base font-bold">+0%</p>
 				</div>
 				<div className="flex flex-col gap-2 rounded-lg bg-white p-6 border border-card-border">
-					<p className="text-text-body text-base font-medium">Active Now Count</p>
+					<p className="text-text-body text-base font-medium">{t('ACTIVE_NOW_COUNT')}</p>
 					<p className="text-secondary text-3xl font-bold leading-tight">{data?.interaction_now_count}</p>
 					<p className="text-success text-base font-bold">+0%</p>
 				</div>
 			</div>
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
 				<div className="lg:col-span-2 flex flex-col gap-4 rounded-lg border border-card-border bg-white p-6">
-					<p className="text-secondary text-lg font-bold">Interaction Today Count</p>
+					<p className="text-secondary text-lg font-bold">{t('INTERACTION_TODAY_COUNT')}</p>
 					<div className="flex flex-col">
 						<LineChart chartData={data2?.data} />
 					</div>
 				</div>
 				<div className="flex flex-col gap-4 rounded-lg border border-card-border bg-white p-6 relative">
-					<p className="text-secondary text-lg font-bold">Internation DM Count</p>
+					<p className="text-secondary text-lg font-bold">{t('INTERNATIONAL_DM_COUNT')}</p>
 					<div className="relative flex items-center justify-center max-h-80 absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2">
 						<SentimentPieChart totals={[data?.interaction_dm_count, data?.interaction_comment_count]} />
 
 						<div className="absolute text-center">
-							<p className="text-text-body">Total</p>
+							<p className="text-text-body">{t('TOTAL')}</p>
 							<p className="text-4xl font-bold text-secondary">
 								{data?.interaction_dm_count}
 							</p>

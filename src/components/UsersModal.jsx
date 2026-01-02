@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { useCompanies } from '../hooks/useCompanies'
 import { FileUploader } from './UI/UploadImageFirebase'
 import { getUserFromStorage } from '../lib/helpers/userStore'
+import { useLanguageContext } from '../context/Language'
 
 export const CreateUserModal = ({ closeModal, handleCreate }) => {
+	const { t } = useLanguageContext()
 	const { companies } = useCompanies()
 	const [formData, setFormData] = useState({
 		full_name: '',
@@ -27,42 +29,42 @@ export const CreateUserModal = ({ closeModal, handleCreate }) => {
 			id="userCreate"
 		>
 			<label key="full_name" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Full Name *</p>
-				<input name="full_name" required type="text" value={formData.full_name} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Full Name" />
+				<p className="text-secondary text-sm font-medium pb-2">{t("FULL_NAME")} *</p>
+				<input name="full_name" required type="text" value={formData.full_name} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('FULL_NAME')} ${t('ENTER')}`} />
 			</label>
 			<label key="username" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Username*</p>
-				<input name="username" required type="text" value={formData.username} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Username" />
+				<p className="text-secondary text-sm font-medium pb-2">{t("USERNAME")} *</p>
+				<input name="username" required type="text" value={formData.username} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('USERNAME')} ${t('ENTER')}`} />
 			</label>
 			<label key="phone_number" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Phone Number *</p>
-				<input name="phone_number" required type="phone_number" value={formData.phone_number} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Phone Number" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('PHONE_NUMBER')} *</p>
+				<input name="phone_number" required type="phone_number" value={formData.phone_number} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('PHONE_NUMBER')} ${t('ENTER')}`} />
 			</label>
 			<label key="password" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Password *</p>
-				<input name="password" required type="password" value={formData.password} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Password" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('PASSWORD')} *</p>
+				<input name="password" required type="password" value={formData.password} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('PASSWORD')} ${t('ENTER')}`} />
 			</label>
 			<label className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Role *</p>
+				<p className="text-secondary text-sm font-medium pb-2">{t('ROLE')} *</p>
 				<select onChange={handleChange} value={formData?.role} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="role" id="role">
-					<option value="">--Select Role--</option>
+					<option value="">--{t('SELECT_ROLE')}--</option>
 					{getUserFromStorage()?.user?.role === 'SUPERADMIN'
 						? ['SUPERADMIN', 'ADMIN', 'MANAGER', 'OPERATOR'].map((role) => (
-								<option key={Math.random()} value={role}>
-									{role}
-								</option>
-						  ))
+							<option key={Math.random()} value={role}>
+								{role}
+							</option>
+						))
 						: ['MANAGER', 'OPERATOR'].map((role) => (
-								<option key={Math.random()} value={role}>
-									{role}
-								</option>
-						  ))}
+							<option key={Math.random()} value={role}>
+								{role}
+							</option>
+						))}
 				</select>
 			</label>
 			<label className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Company Id *</p>
+				<p className="text-secondary text-sm font-medium pb-2">{t('COMPANY_ID')} *</p>
 				<select onChange={handleChange} defaultValue={formData?.company_id} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="company_id" id="company_id">
-					<option value="">--Select Company--</option>
+					<option value="">--{t('SELECT_COMPANY')}--</option>
 					{companies.map((company) => (
 						<option key={company.id} value={company.id}>
 							{company.title}
@@ -71,7 +73,7 @@ export const CreateUserModal = ({ closeModal, handleCreate }) => {
 				</select>
 			</label>
 			<div className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Profile Picture *</p>
+				<p className="text-secondary text-sm font-medium pb-2">{t('PROFILE_PICTURE')} *</p>
 				<FileUploader folder="users" type="image" fileUrl={formData.pic_path} onChange={(url) => setFormData({ ...formData, pic_path: url })} />
 			</div>
 		</form>
@@ -79,6 +81,7 @@ export const CreateUserModal = ({ closeModal, handleCreate }) => {
 }
 
 export const EditUserModal = ({ id, closeModal, fetchUser, handleUpdate }) => {
+	const { t } = useLanguageContext()
 	const { companies } = useCompanies()
 	const [formData, setFormData] = useState(null)
 	const [loading, setLoading] = useState(true)
@@ -111,7 +114,7 @@ export const EditUserModal = ({ id, closeModal, fetchUser, handleUpdate }) => {
 		setFormData((prev) => ({ ...prev, [name]: value }))
 	}
 
-	if (loading) return <div className="text-center">Loading...</div>
+	if (loading) return <div className="text-center">{t('LOADING')}...</div>
 
 	return (
 		<form
@@ -124,50 +127,50 @@ export const EditUserModal = ({ id, closeModal, fetchUser, handleUpdate }) => {
 			className="space-y-6"
 		>
 			<label key="full_name" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Full Name *</p>
-				<input name="full_name" type="text" value={formData.full_name} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Full Name" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('FULL_NAME')} *</p>
+				<input name="full_name" type="text" value={formData.full_name} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('FULL_NAME')} ${t('ENTER')}`} />
 			</label>
 			<label key="username" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Username*</p>
-				<input name="username" type="text" value={formData.username} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Username" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('USERNAME')} *</p>
+				<input name="username" type="text" value={formData.username} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('USERNAME')} ${t('ENTER')}`} />
 			</label>
 			<label key="phone_number" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Phone Number *</p>
-				<input name="phone_number" type="phone_number" value={formData.phone_number} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Phone Number" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('PHONE_NUMBER')} *</p>
+				<input name="phone_number" type="phone_number" value={formData.phone_number} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('PHONE_NUMBER')} ${t('ENTER')}`} />
 			</label>
 			<label key="password" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Password *</p>
-				<input name="password" type="password" value={formData.password} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Password" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('PASSWORD')} *</p>
+				<input name="password" type="password" value={formData.password} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('PASSWORD')} ${t('ENTER')}`} />
 			</label>
 			<label className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Role *</p>
+				<p className="text-secondary text-sm font-medium pb-2">{t('ROLE')} *</p>
 				<select onChange={handleChange} value={formData?.role} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="role" id="role">
-					<option value="">--Select Role--</option>
+					<option value="">--{t('SELECT_ROLE')}--</option>
 					{getUserFromStorage()?.user?.role === 'SUPERADMIN'
 						? ['SUPERADMIN', 'ADMIN', 'MANAGER', 'OPERATOR'].map((role) => (
-								<option key={Math.random()} value={role}>
-									{role}
-								</option>
-						  ))
+							<option key={Math.random()} value={role}>
+								{role}
+							</option>
+						))
 						: ['MANAGER', 'OPERATOR'].map((role) => (
-								<option key={Math.random()} value={role}>
-									{role}
-								</option>
-						  ))}
+							<option key={Math.random()} value={role}>
+								{role}
+							</option>
+						))}
 				</select>
 			</label>
 			<label className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Status *</p>
+				<p className="text-secondary text-sm font-medium pb-2">{t('STATUS')} *</p>
 				<select onChange={handleChange} value={formData?.is_active} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="is_active" id="is_active">
-					<option value="">--Select Status--</option>
-					<option value={true}>Active</option>
-					<option value={false}>InActive</option>
+					<option value="">--{t('SELECT_STATUS')}--</option>
+					<option value={true}>{t('ACTIVE')}</option>
+					<option value={false}>{t('INACTIVE')}</option>
 				</select>
 			</label>
 			<label className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Company Id *</p>
+				<p className="text-secondary text-sm font-medium pb-2">{t('COMPANY_ID')} *</p>
 				<select onChange={handleChange} value={formData?.company_id} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="company_id" id="company_id">
-					<option value="">--Select Company--</option>
+					<option value="">--{t('SELECT_COMPANY')}--</option>
 					{companies.map((company) => (
 						<option key={company.id} value={company.id}>
 							{company.title}
@@ -176,7 +179,7 @@ export const EditUserModal = ({ id, closeModal, fetchUser, handleUpdate }) => {
 				</select>
 			</label>
 			<div className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Profile Picture *</p>
+				<p className="text-secondary text-sm font-medium pb-2">{t('PROFILE_PICTURE')} *</p>
 				<FileUploader folder="users" type="image" fileUrl={formData.pic_path} onChange={(url) => setFormData({ ...formData, pic_path: url })} />
 			</div>
 		</form>
@@ -184,6 +187,7 @@ export const EditUserModal = ({ id, closeModal, fetchUser, handleUpdate }) => {
 }
 
 export const DeleteUserModal = ({ id, closeModal, handleDelete }) => {
+	const { t } = useLanguageContext()
 	return (
 		<form
 			onSubmit={async (e) => {
@@ -191,21 +195,22 @@ export const DeleteUserModal = ({ id, closeModal, handleDelete }) => {
 				await handleDelete(id)
 				closeModal()
 			}}
-			className="text-center space-y-4"
+			className="text-ct('ENTER') space-y-4"
 			id="userDelete"
 		>
-			<p className="my-5">Are you sure? This action cannot be undone.</p>
+			<p className="my-5">{t('CONFIRM_DELETE')}</p>
 		</form>
 	)
 }
 
 export const UsersModal = (closeModal, openModal, fetchUser, handleCreate, handleUpdate, handleDelete) => {
+	const { t } = useLanguageContext()
 	const handleOpenCreate = () => {
 		openModal({
 			type: 'CREATE',
 			formId: 'userCreate',
-			title: 'Create User',
-			btnTitle: 'Create',
+			title: t('CREATE_USER'),
+			btnTitle: t('CREATE'),
 			content: <CreateUserModal closeModal={closeModal} handleCreate={handleCreate} />,
 		})
 	}
@@ -214,8 +219,8 @@ export const UsersModal = (closeModal, openModal, fetchUser, handleCreate, handl
 		openModal({
 			type: 'UPDATE',
 			formId: 'userEdit',
-			title: 'Update User',
-			btnTitle: 'Update',
+			title: t('UPDATE_USER'),
+			btnTitle: t('UPDATE'),
 			content: <EditUserModal id={id} closeModal={closeModal} fetchUser={fetchUser} handleUpdate={handleUpdate} />,
 		})
 	}
@@ -224,8 +229,8 @@ export const UsersModal = (closeModal, openModal, fetchUser, handleCreate, handl
 		openModal({
 			type: 'DELETE',
 			formId: 'userDelete',
-			title: 'Delete User',
-			btnTitle: 'Delete',
+			title: t('DELETE_USER'),
+			btnTitle: t('DELETE'),
 			content: <DeleteUserModal id={id} closeModal={closeModal} handleDelete={handleDelete} />,
 		})
 	}

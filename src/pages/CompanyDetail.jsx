@@ -8,8 +8,10 @@ import MainLayout from '../components/layout/MainLayout'
 import { getOpenedSection, setOpenedSection } from '../lib/helpers/companyDetailState'
 import CompanyLids from './CompanyLid'
 import CompanyInfo from './CompanyInfo'
+import { useLanguageContext } from '../context/Language'
 
 export default function CompanyDetail() {
+	const {t} = useLanguageContext()
 	const { id } = useParams()
 
 	const [opened, setOpened] = useState(getOpenedSection())
@@ -42,55 +44,55 @@ export default function CompanyDetail() {
 				{/* COMPANY INFO */}
 				<div onClick={() => openSection('info')} className="bg-white border rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition-all">
 					<div className="flex items-center justify-between">
-						<h2 className="text-secondary text-xl font-semibold">Company Info</h2>
+						<h2 className="text-secondary text-xl font-semibold">{t('COMPANY_INFO')}</h2>
 						<span className="material-symbols-outlined text-primary">chevron_right</span>
 					</div>
-					<p className="text-sm text-gray-500 mt-2">View company details</p>
+					<p className="text-sm text-gray-500 mt-2">{t('VIEW_COMPANY_DETAILS')}</p>
 				</div>
 
 				{/* AI CONFIGS */}
 				<div onClick={() => openSection('ai')} className="bg-white border rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition-all">
 					<div className="flex items-center justify-between">
-						<h2 className="text-secondary text-xl font-semibold">AI Configs</h2>
+						<h2 className="text-secondary text-xl font-semibold">{t('AI_CONFIGS')}</h2>
 						<span className="material-symbols-outlined text-primary">chevron_right</span>
 					</div>
-					<p className="text-sm text-gray-500 mt-2">Manage AI settings for this company</p>
+					<p className="text-sm text-gray-500 mt-2">{t('MANAGE_AI_SETTINGS_COMPANY')}</p>
 				</div>
 
 				{/* CAMPAIGNS */}
 				<div onClick={() => openSection('campaigns')} className="bg-white border rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition-all">
 					<div className="flex items-center justify-between">
-						<h2 className="text-secondary text-xl font-semibold">Campaigns</h2>
+						<h2 className="text-secondary text-xl font-semibold">{t('CAMPAIGNS')}</h2>
 						<span className="material-symbols-outlined text-primary">chevron_right</span>
 					</div>
-					<p className="text-sm text-gray-500 mt-2">View and manage campaigns</p>
+					<p className="text-sm text-gray-500 mt-2">{t('CAMPAIGN_REVIEW')}</p>
 				</div>
 
 				{/* INTERACTION LOGS */}
 				<div onClick={() => openSection('logs')} className="bg-white border rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition-all">
 					<div className="flex items-center justify-between">
-						<h2 className="text-secondary text-xl font-semibold">Interaction Logs</h2>
+						<h2 className="text-secondary text-xl font-semibold">{t('INTERACTION_LOGS')}</h2>
 						<span className="material-symbols-outlined text-primary">chevron_right</span>
 					</div>
-					<p className="text-sm text-gray-500 mt-2">See all messages and logs</p>
+					<p className="text-sm text-gray-500 mt-2">{t('SEE_MESSAGES_LOGS')}</p>
 				</div>
 
 				{/* USERS */}
 				<div onClick={() => openSection('users')} className="bg-white border rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition-all">
 					<div className="flex items-center justify-between">
-						<h2 className="text-secondary text-xl font-semibold">Users</h2>
+						<h2 className="text-secondary text-xl font-semibold">{t('USERS')}</h2>
 						<span className="material-symbols-outlined text-primary">chevron_right</span>
 					</div>
-					<p className="text-sm text-gray-500 mt-2">Manage company users</p>
+					<p className="text-sm text-gray-500 mt-2">{t('MANAGE_COMPANY_USERS')}</p>
 				</div>
 
 				{/* COMPANY LIDS */}
 				<div onClick={() => openSection('lids')} className="bg-white border rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition-all">
 					<div className="flex items-center justify-between">
-						<h2 className="text-secondary text-xl font-semibold">Company Lids</h2>
+						<h2 className="text-secondary text-xl font-semibold">{t('COMPANY_LIDS')}</h2>
 						<span className="material-symbols-outlined text-primary">chevron_right</span>
 					</div>
-					<p className="text-sm text-gray-500 mt-2">Manage company lids</p>
+					<p className="text-sm text-gray-500 mt-2">{t('MANAGE_COMPANY_LEADS')}</p>
 				</div>
 			</div>
 		</MainLayout>

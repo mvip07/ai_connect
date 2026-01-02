@@ -2,8 +2,10 @@ import { useRef, useState } from 'react'
 import { FileText, ImagePlus, Loader2, Video } from 'lucide-react'
 import { uploadFileToFirebase } from '../../lib/helpers/uploadImage'
 import { notify } from '../../lib/toastify'
+import { useLanguageContext } from '../../context/Language'
 
 export const FileUploader = ({ fileUrl, folder, type = 'any', onChange }) => {
+	const {t} = useLanguageContext()
 	const fileInputRef = useRef(null)
 	const [uploading, setUploading] = useState(false)
 	const [progress, setProgress] = useState(0)
@@ -40,7 +42,7 @@ export const FileUploader = ({ fileUrl, folder, type = 'any', onChange }) => {
 				<div className="relative w-full h-60 rounded-2xl overflow-hidden border border-gray-200 shadow">
 					<img src={fileUrl} alt="Preview" width={100} height={100} className="w-full h-full object-cover" />
 					<button onClick={() => fileInputRef.current?.click()} type="button" className="absolute inset-0 bg-black/40 text-white opacity-0 hover:opacity-100 flex items-center justify-center transition-all">
-						Change Image
+						{t('CHANGE_IMAGE')}
 					</button>
 				</div>
 			) : type === 'pdf' && fileUrl ? (
@@ -48,18 +50,18 @@ export const FileUploader = ({ fileUrl, folder, type = 'any', onChange }) => {
 					<div className="flex items-center gap-2">
 						<FileText className="text-blue-600" />
 						<a href={fileUrl} target="_blank" className="text-blue-600 underline text-sm" rel="noopener noreferrer">
-							View PDF
+							{t('VIEW_PDF')}
 						</a>
 					</div>
 					<button onClick={() => fileInputRef.current?.click()} type="button" className="text-sm text-gray-600 hover:text-blue-600">
-						Change
+						{t('CHANGE')}
 					</button>
 				</div>
 			) : type === 'video' && fileUrl ? (
 				<div className="relative w-full h-64 rounded-2xl overflow-hidden border border-gray-200 shadow">
 					<video src={fileUrl} controls className="w-full h-full object-cover" />
 					<button onClick={() => fileInputRef.current?.click()} type="button" className="absolute inset-0 bg-black/40 text-white opacity-0 hover:opacity-100 flex items-center justify-center transition-all">
-						Change Video
+						{t('CHANGE_VIDEO')}
 					</button>
 				</div>
 			) : (
@@ -72,7 +74,7 @@ export const FileUploader = ({ fileUrl, folder, type = 'any', onChange }) => {
 					) : (
 						<>
 							{type === 'image' ? <ImagePlus className="w-10 h-10 text-gray-400 mb-2" /> : type === 'pdf' ? <FileText className="w-10 h-10 text-gray-400 mb-2" /> : type === 'video' ? <Video className="w-10 h-10 text-gray-400 mb-2" /> : <FileText className="w-10 h-10 text-gray-400 mb-2" />}
-							<p className="text-gray-500 text-sm">Click to upload {type === 'image' ? 'image' : type === 'pdf' ? 'PDF' : type === 'video' ? 'video' : 'file'}</p>
+							<p className="text-gray-500 text-sm">{t('CLICK_TO_UPLOAD')} {type === 'image' ? 'image' : type === 'pdf' ? 'PDF' : type === 'video' ? 'video' : 'file'}</p>
 						</>
 					)}
 				</div>
@@ -89,7 +91,7 @@ export const FileUploader = ({ fileUrl, folder, type = 'any', onChange }) => {
 				}}
 			/>
 
-			<input type="url" defaultValue={fileUrl} onChange={(e) => onChange(e.target.value)} placeholder={`Or paste ${type === 'image' ? 'image' : type === 'pdf' ? 'PDF' : type === 'video' ? 'video' : 'file'} URL`} className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+			<input type="url" defaultValue={fileUrl} onChange={(e) => onChange(e.target.value)} placeholder={`${t('OR_PASTE')} ${type === 'image' ? 'image' : type === 'pdf' ? 'PDF' : type === 'video' ? 'video' : 'file'} URL`} className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
 		</div>
 	)
 }

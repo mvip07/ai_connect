@@ -5,8 +5,10 @@ import { AiConfigsModal } from '../components/AIConfigsModal'
 import { useAiConfigs } from '../hooks/useAiConfig'
 import { getUserFromStorage } from '../lib/helpers/userStore'
 import { Link } from 'react-router-dom'
+import { useLanguageContext } from '../context/Language'
 
 export default function AiConfigs({ companyIdProps }) {
+	const { t } = useLanguageContext()
 	const companyId = companyIdProps || getUserFromStorage()?.user?.company_id
 	const { closeModal, openModal } = useModal()
 	const { aiConfigs, fetchAiConfig, handleCreate, handleUpdate, handleDelete } = useAiConfigs(companyId)
@@ -89,12 +91,12 @@ export default function AiConfigs({ companyIdProps }) {
 		<MainLayout>
 			<div className="flex flex-wrap justify-between gap-3 items-center mb-6">
 				<div className="flex flex-col gap-1">
-					<p className="text-secondary text-3xl font-bold leading-tight tracking-tight">AI Config List</p>
-					<p className="text-secondary/60 text-base font-normal leading-normal">Review and manage AI configurations.</p>
+					<p className="text-secondary text-3xl font-bold leading-tight tracking-tight">{t('AI_CONFIG_LIST')}</p>
+					<p className="text-secondary/60 text-base font-normal leading-normal">{t('AI_CONFIG_REVIEW')}</p>
 				</div>
 				<button onClick={handleOpenCreate} className="flex items-center justify-center gap-2 overflow-hidden rounded-DEFAULT h-11 px-5 bg-primary text-white text-sm font-medium leading-normal shadow-soft hover:shadow-md transition-shadow">
 					<span className="material-symbols-outlined">add</span>
-					<span className="truncate">Add AI Config</span>
+					<span className="truncate">{t('ADD_AI_CONFIG')}</span>
 				</button>
 			</div>
 			<div className="w-full rounded-lg bg-card p-6 shadow-soft-lg border border-border-color">
@@ -103,7 +105,7 @@ export default function AiConfigs({ companyIdProps }) {
 						<span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">search</span>
 						<input
 							className="w-full h-10 pl-10 pr-4 rounded-DEFAULT border-border-color focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
-							placeholder="Search by template name..."
+							placeholder={t('SEARCH_TEMPLATE_NAME') + '...'}
 							type="text"
 							value={searchQuery}
 							onChange={(e) => {
@@ -122,10 +124,10 @@ export default function AiConfigs({ companyIdProps }) {
 					<table className="w-full text-left">
 						<thead>
 							<tr className="border-b border-border-color">
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Template Name</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Use OpenAI</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Template Text</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">Actions</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('TEMPLATE_NAME')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('USE_OPENAI')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('TEMPLATE_TEXT')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">{t('ACTIONS')}</th>
 							</tr>
 						</thead>
 						<tbody>

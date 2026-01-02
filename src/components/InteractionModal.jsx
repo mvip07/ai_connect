@@ -1,4 +1,7 @@
+import { useLanguageContext } from "../context/Language"
+
 export const DeleteInteractionLogModal = ({ id, closeModal, handleDelete }) => {
+	const { t } = useLanguageContext()
 	return (
 		<form
 			onSubmit={async (e) => {
@@ -9,18 +12,19 @@ export const DeleteInteractionLogModal = ({ id, closeModal, handleDelete }) => {
 			className="text-center space-y-4"
 			id="interactionLogDelete"
 		>
-			<p className="my-5">Are you sure? This action cannot be undone.</p>
+			<p className="my-5">{t('CONFIRM_DELETE')}</p>
 		</form>
 	)
 }
 
 export const InteractionLogsModal = (closeModal, openModal, handleDelete) => {
+	const {t} = useLanguageContext()
 	const handleOpenDelete = (id) => {
 		openModal({
 			type: 'DELETE',
 			formId: 'interactionLogDelete',
-			title: 'Delete Interaction Log',
-			btnTitle: 'Delete',
+			title: t('DELETE_INTERACTION_LOG'),
+			btnTitle: t('DELETE'),
 			content: <DeleteInteractionLogModal id={id} closeModal={closeModal} handleDelete={handleDelete} />,
 		})
 	}

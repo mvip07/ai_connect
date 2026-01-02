@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import MainLayout from '../components/layout/MainLayout'
 import { useCompanies } from '../hooks/useCompanies'
+import { useLanguageContext } from '../context/Language'
 
 export default function CompanyInfo({ companyIdProps }) {
+    const {t} = useLanguageContext()
     const { fetchCompany } = useCompanies()
     const [company, setCompany] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -20,7 +22,7 @@ export default function CompanyInfo({ companyIdProps }) {
     }, [companyIdProps, fetchCompany])
 
     if (loading) {
-        return <div>Loading...</div>
+        return <div>{t('LOADING')}...</div>
     }
 
     if (!company) {
@@ -31,8 +33,8 @@ export default function CompanyInfo({ companyIdProps }) {
         <MainLayout>
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <div className="flex flex-col gap-2">
-                    <p className="text-secondary text-3xl font-bold leading-tight">Company Details</p>
-                    <p className="text-text-secondary text-base font-normal leading-normal">View company information.</p>
+                    <p className="text-secondary text-3xl font-bold leading-tight">{t('COMPANY_DETAILS')}</p>
+                    <p className="text-text-secondary text-base font-normal leading-normal">{t('VIEW_COMPANY_INFO')}</p>
                 </div>
             </div>
             <div className="w-full rounded-lg bg-card p-6 shadow-soft-lg border border-border-color">
@@ -46,33 +48,33 @@ export default function CompanyInfo({ companyIdProps }) {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                         <div>
-                            <p className="font-semibold">Contact Number:</p>
+                            <p className="font-semibold">{t('CONTACT_NUMBER')}:</p>
                             <p>{company.contact_number}</p>
                         </div>
                         <div>
-                            <p className="font-semibold">Contact Email:</p>
+                            <p className="font-semibold">{t('CONTACT_EMAIL')}:</p>
                             <p>{company.contact_email}</p>
                         </div>
                         <div>
-                            <p className="font-semibold">Address:</p>
+                            <p className="font-semibold">{t('ADDRESS')}:</p>
                             <p>{company.address}</p>
                         </div>
                         <div>
-                            <p className="font-semibold">Instagram Token:</p>
+                            <p className="font-semibold">{t('INSTAGRAM_TOKEN')}:</p>
                             <p className="overflow-auto">{company.instagram_token}</p>
                         </div>
                         <div>
-                            <p className="font-semibold">OpenAI Token:</p>
+                            <p className="font-semibold">{t('OPENAI_TOKEN')}:</p>
                             <p className="overflow-auto">{company.openai_token}</p>
                         </div>
                         <div>
-                            <p className="font-semibold">Status:</p>
+                            <p className="font-semibold">{t('STATUS')}:</p>
                             <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${company.is_active ? 'bg-success/10 text-success' : 'bg-error/10 text-error'}`}>
-                                {company.is_active ? 'Active' : 'Inactive'}
+                                {company.is_active ? t('ACTIVE') : t('INACTIVE')}
                             </span>
                         </div>
                         <div>
-                            <p className="font-semibold">Created At:</p>
+                            <p className="font-semibold">{t('CREATED_AT')}:</p>
                             <p>{new Date(company.created_at).toLocaleDateString()}</p>
                         </div>
                     </div>

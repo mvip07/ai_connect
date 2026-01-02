@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useCompanies } from '../hooks/useCompanies'
+import { useLanguageContext } from '../context/Language'
 
 export const CreateCompaignModal = ({ closeModal, handleCreate }) => {
+	const { t } = useLanguageContext()
 	const { companies } = useCompanies()
 	const [formData, setFormData] = useState({
 		title: '',
@@ -24,17 +26,17 @@ export const CreateCompaignModal = ({ closeModal, handleCreate }) => {
 			id="compaignCreate"
 		>
 			<label className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Title *</p>
-				<input name="title" required type="text" value={formData['title']} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter title" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('TITLE')} *</p>
+				<input name="title" required type="text" value={formData['title']} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('TITLE')} ${t('ENTER')}`} />
 			</label>
 			<label className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Content *</p>
-				<input name="content" required type="text" value={formData['content']} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter content" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('CONTENT')} *</p>
+				<input name="content" required type="text" value={formData['content']} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('CONTENT')} ${t('ENTER')}`} />
 			</label>
 			<label className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Company Id *</p>
+				<p className="text-secondary text-sm font-medium pb-2">{t('COMPANY_ID')} *</p>
 				<select onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="company_id" id="company_id">
-					<option value="">--Select Company</option>
+					<option value="">--{t('SELECT_COMPANY')}--</option>
 					{companies.map((company) => (
 						<option key={company.id} value={company.id}>
 							{company.title}
@@ -47,6 +49,7 @@ export const CreateCompaignModal = ({ closeModal, handleCreate }) => {
 }
 
 export const EditCompaignModal = ({ id, closeModal, fetchCompaign, handleUpdate }) => {
+	const { t } = useLanguageContext()
 	const { companies } = useCompanies()
 	const [formData, setFormData] = useState(null)
 	const [loading, setLoading] = useState(true)
@@ -68,7 +71,7 @@ export const EditCompaignModal = ({ id, closeModal, fetchCompaign, handleUpdate 
 		setFormData((prev) => ({ ...prev, [name]: value }))
 	}
 
-	if (loading) return <div className="text-center">Loading...</div>
+	if (loading) return <div className="text-center">{t('LOADING')}...</div>
 
 	return (
 		<form
@@ -81,25 +84,25 @@ export const EditCompaignModal = ({ id, closeModal, fetchCompaign, handleUpdate 
 			className="space-y-6"
 		>
 			<label className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Title *</p>
-				<input name="title" required type="text" value={formData?.title} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter title" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('TITLE')} *</p>
+				<input name="title" required type="text" value={formData['title']} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('TITLE')} ${t('ENTER')}`} />
 			</label>
 			<label className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Content *</p>
-				<input name="content" required type="text" value={formData?.content} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter content" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('CONTENT')} *</p>
+				<input name="content" required type="text" value={formData['content']} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('CONTENT')} ${t('ENTER')}`} />
 			</label>
 			<label className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Status *</p>
+				<p className="text-secondary text-sm font-medium pb-2">{t('STATUS')} *</p>
 				<select onChange={handleChange} defaultValue={formData?.is_active} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="is_active" id="is_active">
-					<option value="">--Select Status</option>
-					<option value={true}>Active</option>
-					<option value={false}>InActive</option>
+					<option value="">{t('SELECT_STATUS')}</option>
+					<option value="true">{t('ACTIVE')}</option>
+					<option value="false">{t('INACTIVE')}</option>
 				</select>
 			</label>
 			<label className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Company Id *</p>
+				<p className="text-secondary text-sm font-medium pb-2">{t('COMPANY_ID')} *</p>
 				<select onChange={handleChange} defaultValue={formData?.company_id} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="company_id" id="company_id">
-					<option value="">--Select Company</option>
+					<option value="">--{t('SELECT_COMPANY')}--</option>
 					{companies.map((company) => (
 						<option key={company.id} value={company.id}>
 							{company.title}
@@ -112,6 +115,7 @@ export const EditCompaignModal = ({ id, closeModal, fetchCompaign, handleUpdate 
 }
 
 export const DeleteCompaignModal = ({ id, closeModal, handleDelete }) => {
+	const { t } = useLanguageContext()
 	return (
 		<form
 			onSubmit={async (e) => {
@@ -122,18 +126,19 @@ export const DeleteCompaignModal = ({ id, closeModal, handleDelete }) => {
 			className="text-center space-y-4"
 			id="compaignDelete"
 		>
-			<p className="my-5">Are you sure? This action cannot be undone.</p>
+			<p className="my-5">{t('CONFIRM_DELETE')}</p>
 		</form>
 	)
 }
 
 export const CompaignsModal = (closeModal, openModal, fetchCompaign, handleCreate, handleUpdate, handleDelete) => {
+	const { t } = useLanguageContext()
 	const handleOpenCreate = () => {
 		openModal({
 			type: 'CREATE',
 			formId: 'compaignCreate',
-			title: 'Create Compaign',
-			btnTitle: 'Create',
+			title: t('CREATE_CAMPAIGN'),
+			btnTitle: t('CREATE'),
 			content: <CreateCompaignModal closeModal={closeModal} handleCreate={handleCreate} />,
 		})
 	}
@@ -142,8 +147,8 @@ export const CompaignsModal = (closeModal, openModal, fetchCompaign, handleCreat
 		openModal({
 			type: 'UPDATE',
 			formId: 'compaignEdit',
-			title: 'Update Compaign',
-			btnTitle: 'Update',
+			title: t('UPDATE_CAMPAIGN'),
+			btnTitle: t('UPDATE'),
 			content: <EditCompaignModal id={id} closeModal={closeModal} fetchCompaign={fetchCompaign} handleUpdate={handleUpdate} />,
 		})
 	}
@@ -152,8 +157,8 @@ export const CompaignsModal = (closeModal, openModal, fetchCompaign, handleCreat
 		openModal({
 			type: 'DELETE',
 			formId: 'compaignDelete',
-			title: 'Delete Compaign',
-			btnTitle: 'Delete',
+			title: t('DELETE_CAMPAIGN'),
+			btnTitle: t('DELETE'),
 			content: <DeleteCompaignModal id={id} closeModal={closeModal} handleDelete={handleDelete} />,
 		})
 	}

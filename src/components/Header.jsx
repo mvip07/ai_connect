@@ -1,7 +1,9 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useLanguageContext } from '../context/Language'
 
 const Header = React.memo(function Header({ active, toggleSideBar, userData }) {
+	const { t } = useLanguageContext()
 	const navigate = useNavigate()
 	return (
 		<header className="sticky top-0 z-10 flex h-20 items-center justify-between border-b border-[#E0E7FF] bg-white/80 px-10 backdrop-blur-sm">
@@ -11,7 +13,7 @@ const Header = React.memo(function Header({ active, toggleSideBar, userData }) {
 						<div className="text-[#1D1F23]/40 flex items-center justify-center pl-4">
 							<span className="material-symbols-outlined">search</span>
 						</div>
-						<input name='search' id='search' className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg border-none bg-transparent text-[#1D1F23] focus:outline-0 focus:ring-0 h-full placeholder:text-[#1D1F23]/40 pl-2 text-base font-normal leading-normal" placeholder="Search..." defaultValue="" />
+						<input name='search' id='search' className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg border-none bg-transparent text-[#1D1F23] focus:outline-0 focus:ring-0 h-full placeholder:text-[#1D1F23]/40 pl-2 text-base font-normal leading-normal" placeholder={t('SEARCH') + '...'} defaultValue="" />
 					</div>
 				</label>
 			</div>

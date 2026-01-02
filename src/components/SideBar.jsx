@@ -9,6 +9,7 @@ export const ROLE_PAGES = {
 		'/client/companies',
 		'/client/companies/:id',
 		'/settings',
+		'/languages',
 		"/client/companies",
 		"/client/companies/:id",
 		"/client/companies/:id/user/:detailId",
@@ -32,6 +33,7 @@ const SIDEBAR_ITEMS = [
 	{ path: '/users', icon: 'group', label: 'Users' },
 	{ path: '/interaction', icon: 'list_alt', label: 'Interaction Logs' },
 	{ path: '/lids', icon: 'list_alt', label: 'Lids' },
+	{ path: '/languages', icon: 'language', label: 'Languages' },
 	{ path: '/settings', icon: 'settings', label: 'Settings' },
 ]
 

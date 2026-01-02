@@ -1,49 +1,38 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { getUserFromStorage } from '../lib/helpers/userStore'
+import { useLanguages } from '../hooks/useLanguage'
 import { useModal } from '../components/UI/Modal'
 import MainLayout from '../components/layout/MainLayout'
-import { CompanyLidsModal } from '../components/CompanyLidsModal.jsx'
-import { useCompanyLids } from '../hooks/useCompanyLids'
-import { useLanguageContext } from '../context/Language.js'
+import { LangsModal } from '../components/LanguagesModal'
+import { useLanguageContext } from '../context/Language'
 
-export default function CompanyLids({ companyIdProps }) {
+export default function Languages() {
     const { t } = useLanguageContext()
-    const companyId = companyIdProps || getUserFromStorage()?.user?.company_id
-    const { openModal, closeModal } = useModal()
-    const { companyLids, fetchCompanyLid, handleUpdate } = useCompanyLids(companyId)
-    const { handleOpenUpdate } = CompanyLidsModal(closeModal, openModal, fetchCompanyLid, handleUpdate)
+    const { closeModal, openModal } = useModal()
+    const { lang, fetchLang, handleCreate, handleUpdate, handleDelete } = useLanguages()
+    const { handleOpenCreate, handleOpenUpdate, handleOpenDelete } = LangsModal(closeModal, openModal, fetchLang, handleCreate, handleUpdate, handleDelete)
 
     const [searchQuery, setSearchQuery] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
-    const [sortBy, setSortBy] = useState('created_at')
-    const [sortOrder, setSortOrder] = useState('desc')
+    const [sortBy, setSortBy] = useState('message')
+    const [sortOrder, setSortOrder] = useState('asc')
     const itemsPerPage = 5
 
-    const filteredCompanyLids =
-        companyLids?.filter((lid) => {
+    const filteredLang =
+        lang?.filter((l) => {
             const query = searchQuery.toLowerCase()
-            return (
-                lid.username.toLowerCase().includes(query) ||
-                lid.full_name.toLowerCase().includes(query) ||
-                lid.phone_number.toLowerCase().includes(query)
-            )
+            return l.message.toLowerCase().includes(query)
         }) || []
 
-    const sortedCompanyLids = [...filteredCompanyLids].sort((a, b) => {
-        if (sortBy === 'created_at') {
-            const dateA = new Date(a.created_at)
-            const dateB = new Date(b.created_at)
-            return sortOrder === 'asc' ? dateA - dateB : dateB - dateA
-        } else if (sortBy === 'username') {
-            return sortOrder === 'asc' ? a.username.localeCompare(b.username) : b.username.localeCompare(a.username)
+    const sortedLang = [...filteredLang].sort((a, b) => {
+        if (sortBy === 'message') {
+            return sortOrder === 'asc' ? a.message.localeCompare(b.message) : b.message.localeCompare(a.message)
         }
         return 0
     })
 
-    const totalItems = sortedCompanyLids.length
+    const totalItems = sortedLang.length
     const totalPages = Math.ceil(totalItems / itemsPerPage)
-    const paginatedCompanyLids = sortedCompanyLids.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    const paginatedLang = sortedLang.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 
     const handleSort = (field) => {
         if (sortBy === field) {
@@ -97,11 +86,15 @@ export default function CompanyLids({ companyIdProps }) {
 
     return (
         <MainLayout>
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <div className="flex flex-col gap-2">
-                    <p className="text-secondary text-3xl font-bold leading-tight">{t('COMPANY_LIDS')}</p>
-                    <p className="text-text-secondary text-base font-normal leading-normal">{t('REVIEW_MANAGE_COMPANY_LEADS')}</p>
+            <div className="flex flex-wrap justify-between gap-3 items-center mb-6">
+                <div className="flex flex-col gap-1">
+                    <p className="text-secondary text-3xl font-bold leading-tight tracking-tight">{t('LANGUAGE_LIST')}</p>
+                    <p className="text-secondary/60 text-base font-normal leading-normal">{t('LANG_CONFIG_REVIEW')}</p>
                 </div>
+                <button onClick={handleOpenCreate} className="flex items-center justify-center gap-2 overflow-hidden rounded-DEFAULT h-11 px-5 bg-primary text-white text-sm font-medium leading-normal shadow-soft hover:shadow-md transition-shadow">
+                    <span className="material-symbols-outlined">add</span>
+                    <span className="truncate">{t('ADD_LANGUAGE')}</span>
+                </button>
             </div>
             <div className="w-full rounded-lg bg-card p-6 shadow-soft-lg border border-border-color">
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
@@ -109,7 +102,7 @@ export default function CompanyLids({ companyIdProps }) {
                         <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">search</span>
                         <input
                             className="w-full h-10 pl-10 pr-4 rounded-DEFAULT border-border-color focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
-                            placeholder={t('SEARCH_USERNAME_FULLNAME') + '...'}
+                            placeholder={t('SEARCH_BY_MESSAGE')}
                             type="text"
                             value={searchQuery}
                             onChange={(e) => {
@@ -119,8 +112,8 @@ export default function CompanyLids({ companyIdProps }) {
                         />
                     </div>
                     <div className="flex gap-2">
-                        <button onClick={() => handleSort('username')} className="flex items-center justify-center gap-2 h-10 px-4 text-secondary bg-white border border-border-color rounded-DEFAULT hover:bg-gray-50 transition-colors text-sm">
-                            <span>Sort: Username ({sortOrder === 'asc' ? 'Asc' : 'Desc'})</span>
+                        <button onClick={() => handleSort('message')} className="flex items-center justify-center gap-2 h-10 px-4 text-secondary bg-white border border-border-color rounded-DEFAULT hover:bg-gray-50 transition-colors text-sm">
+                            <span>Sort: Message ({sortOrder === 'asc' ? 'Asc' : 'Desc'})</span>
                         </button>
                     </div>
                 </div>
@@ -128,36 +121,25 @@ export default function CompanyLids({ companyIdProps }) {
                     <table className="w-full text-left">
                         <thead>
                             <tr className="border-b border-border-color">
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t("USERNAME")}</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('FULL_NAME')}</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('PHONE_NUMBER')}</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('WHEN_CALL')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('CODE')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('LANG')}</th>
                                 <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('MESSAGE')}</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('INTEREST')}</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('STATUS')}</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('CREATED_AT')}</th>
                                 <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">{t('ACTIONS')}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {paginatedCompanyLids.map((lid) => (
-                                <tr key={lid.id} className="border-b border-border-color hover:bg-gray-50/50 cursor-pointer last:border-b-0">
-                                    <td className="px-4 py-3 text-sm font-medium text-secondary text-nowrap">
-                                        <Link to={`lid/${lid.id}`}>
-                                            {lid.username}
-                                        </Link>
-                                    </td>
-                                    <td className="px-4 py-3 text-sm text-text-secondary">{lid.full_name}</td>
-                                    <td className="px-4 py-3 text-sm text-text-secondary">{lid.phone_number}</td>
-                                    <td className="px-4 py-3 text-sm text-text-secondary">{lid.when_call}</td>
-                                    <td className="px-4 py-3 text-sm text-text-secondary">{lid.message}</td>
-                                    <td className="px-4 py-3 text-sm text-text-secondary">{lid.interest}</td>
-                                    <td className="px-4 py-3 text-sm text-text-secondary">{lid.status}</td>
-                                    <td className="px-4 py-3 text-sm text-text-secondary">{new Date(lid.created_at).toLocaleDateString()}</td>
+                            {paginatedLang.map((l) => (
+                                <tr key={l.id} className="border-b border-border-color last:border-b-0 hover:bg-gray-50/50 cursor-pointer">
+                                    <td className="px-4 py-3 text-sm text-text-secondary">{l.code}</td>
+                                    <td className="px-4 py-3 text-sm text-text-secondary">{l.lang}</td>
+                                    <td className="px-4 py-3 text-sm text-text-secondary">{l.message}</td>
                                     <td className="px-4 py-3 text-right">
-                                        <div className="flex items-center justify-end gap-2 text-secondary/60">
-                                            <button onClick={() => handleOpenUpdate(lid.id)} className="p-1.5 size-10 rounded-md hover:bg-secondary/10 hover:text-secondary">
+                                        <div className="flex items-center justify-end gap-3 text-secondary/60">
+                                            <button onClick={() => handleOpenUpdate(l.id)} className="p-1.5 size-10 rounded-md hover:bg-secondary/10 hover:text-secondary">
                                                 <span className="material-symbols-outlined text-xl">edit</span>
+                                            </button>
+                                            <button onClick={() => handleOpenDelete(l.id)} className="p-1.5 size-10 rounded-md hover:bg-secondary/10 hover:text-secondary">
+                                                <span className="material-symbols-outlined text-xl">delete</span>
                                             </button>
                                         </div>
                                     </td>
@@ -196,6 +178,6 @@ export default function CompanyLids({ companyIdProps }) {
                     </div>
                 </div>
             </div>
-        </MainLayout>
+        </MainLayout >
     )
 }

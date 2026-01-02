@@ -5,8 +5,10 @@ import { useModal } from '../components/UI/Modal'
 import MainLayout from '../components/layout/MainLayout'
 import { CompaniesModal } from '../components/CompaniesModal'
 import { getUserFromStorage } from '../lib/helpers/userStore'
+import { useLanguageContext } from '../context/Language'
 
 export default function Companies() {
+	const {t} = useLanguageContext()
 	const { openModal, closeModal } = useModal()
 	const { companies, fetchCompany, handleCreate, handleUpdate, handleDelete } = useCompanies()
 	const { handleOpenCreate, handleOpenUpdate, handleOpenDelete } = CompaniesModal(closeModal, openModal, fetchCompany, handleCreate, handleUpdate, handleDelete)
@@ -92,13 +94,13 @@ export default function Companies() {
 		<MainLayout>
 			<div className="flex flex-wrap items-center justify-between gap-4 mb-6">
 				<div className="flex flex-col gap-2">
-					<p className="text-secondary text-3xl font-bold leading-tight">Client Companies</p>
-					<p className="text-text-secondary text-base font-normal leading-normal">Manage, monitor, and configure all client accounts on the platform.</p>
+					<p className="text-secondary text-3xl font-bold leading-tight">{t('CLIENT_COMPANIES')}</p>
+					<p className="text-text-secondary text-base font-normal leading-normal">{t('CLIENT_ACCOUNT_MANAGE')}</p>
 				</div>
 				{['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && (
 					<button onClick={handleOpenCreate} className="flex items-center justify-center gap-2 overflow-hidden rounded-DEFAULT h-11 px-5 bg-primary text-white text-sm font-medium leading-normal shadow-soft hover:shadow-md transition-shadow">
 						<span className="material-symbols-outlined">add</span>
-						<span className="truncate">Add New Company</span>
+						<span className="truncate">{t('ADD_NEW_COMPANY')}</span>
 					</button>
 				)}
 			</div>
@@ -108,7 +110,7 @@ export default function Companies() {
 						<span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">search</span>
 						<input
 							className="w-full h-10 pl-10 pr-4 rounded-DEFAULT border-border-color focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
-							placeholder="Search by company or admin..."
+							placeholder={t('SEARCH_COMPANY_ADMIN')}
 							type="text"
 							value={searchQuery}
 							onChange={(e) => {
@@ -127,18 +129,18 @@ export default function Companies() {
 					<table className="w-full text-left">
 						<thead>
 							<tr className="px-4 py-3 border-b border-border-color">
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Company Logo</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Company Name</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Description</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Contact Number</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Contact Email</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Address</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Instagram Id</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Instagram Token</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">OpenAI Token</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Status</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Date Added</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">Actions</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('COMPANY_LOGO')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('COMPANY_NAME')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('DESCRIPTION')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('CONTACT_NUMBER')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('CONTACT_EMAIL')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('ADDRESS')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('INSTAGRAM_ID')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('INSTAGRAM_TOKEN')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('OPENAI_TOKEN')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('STATUS')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('DATE_ADDED')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">{t('ACTIONS')}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -160,7 +162,7 @@ export default function Companies() {
 									<td className="px-4 py-3 text-sm text-text-secondary">{company?.instagram_token?.length > 10 ? company.instagram_token.slice(0, 10) + '...' : company.instagram_token}</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">{company?.openai_token?.length > 10 ? company?.openai_token?.slice(0, 10) + '...' : company?.openai_token}</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">
-										<span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${company.is_active ? 'bg-success/10 text-success' : 'bg-error/10 text-error'}`}>{company.is_active ? 'Active' : 'Inactive'}</span>
+										<span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${company.is_active ? 'bg-success/10 text-success' : 'bg-error/10 text-error'}`}>{company.is_active ? t('ACTIVE') : t('INACTIVE')}</span>
 									</td>
 									<td className="px-4 py-3 text-sm text-text-secondary">{new Date(company.created_at).toLocaleDateString()}</td>
 									<td className="px-4 py-3 text-right">
@@ -175,7 +177,7 @@ export default function Companies() {
 													</button>
 												</>
 											)}
-											{!['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && 'No Action'}
+											{!['SUPERADMIN', 'ADMIN'].includes(getUserFromStorage()?.user?.role) && t('NO_ACTION')}
 										</div>
 									</td>
 								</tr>

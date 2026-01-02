@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { useLanguageContext } from '../context/Language'
 
 export const EditCompanyLidModal = ({ id, closeModal, fetchCompanyLid, handleUpdate }) => {
+    const { t } = useLanguageContext()
     const [formData, setFormData] = useState(null)
     const [loading, setLoading] = useState(true)
 
@@ -21,7 +23,7 @@ export const EditCompanyLidModal = ({ id, closeModal, fetchCompanyLid, handleUpd
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
 
-    if (loading) return <div className="text-center">Loading...</div>
+    if (loading) return <div className="text-center">{t('LOADING')}...</div>
 
     return (
         <form
@@ -34,9 +36,9 @@ export const EditCompanyLidModal = ({ id, closeModal, fetchCompanyLid, handleUpd
             className="space-y-6"
         >
             <label className="flex flex-col min-w-40 flex-1">
-                <p className="text-secondary text-sm font-medium pb-2">Status *</p>
+                <p className="text-secondary text-sm font-medium pb-2">{t('STATUS')} *</p>
                 <select onChange={handleChange} value={formData?.status} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="status" id="status">
-                    <option value="">--Select Status</option>
+                    <option value="">--{t('SELECT_STATUS')}--</option>
                     <option value="NEW">NEW</option>
                     <option value="CONTACTED">CONTACTED</option>
                     <option value="INTERESTED">INTERESTED</option>
@@ -49,20 +51,21 @@ export const EditCompanyLidModal = ({ id, closeModal, fetchCompanyLid, handleUpd
                 </select>
             </label>
             <label className="flex flex-col min-w-40 flex-1">
-                <p className="text-secondary text-sm font-medium pb-2">Message </p>
-                <input name="message" value={formData.message} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter message" />
+                <p className="text-secondary text-sm font-medium pb-2">{t('MESSAGE')} *</p>
+                <input name="message" value={formData.message} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('MESSAGE')} ${t('ENTER')}`} />
             </label>
         </form>
     )
 }
 
 export const CompanyLidsModal = (closeModal, openModal, fetchCompanyLid, handleUpdate) => {
+    const { t } = useLanguageContext()
     const handleOpenUpdate = (id) => {
         openModal({
             type: 'UPDATE',
             formId: 'companyLidEdit',
-            title: 'Update Company Lid',
-            btnTitle: 'Update',
+            title: t('UPDATE_COMPANY_LID'),
+            btnTitle: t('UPDATE'),
             content: <EditCompanyLidModal id={id} closeModal={closeModal} fetchCompanyLid={fetchCompanyLid} handleUpdate={handleUpdate} />,
         })
     }

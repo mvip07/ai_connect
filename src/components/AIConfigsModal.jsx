@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useCompanies } from '../hooks/useCompanies'
 import { getUserFromStorage } from '../lib/helpers/userStore'
+import { useLanguageContext } from '../context/Language'
 
 export const CreateAiConfigModal = ({ closeModal, handleCreate }) => {
+	const { t } = useLanguageContext()
 	const { companies } = useCompanies()
 	const [formData, setFormData] = useState({
 		company_id: '',
@@ -28,9 +30,9 @@ export const CreateAiConfigModal = ({ closeModal, handleCreate }) => {
 		>
 			{getUserFromStorage()?.user?.role === 'SUPERADMIN' && (
 				<label className="flex flex-col min-w-40 flex-1">
-					<p className="text-secondary text-sm font-medium pb-2">Company Id *</p>
+					<p className="text-secondary text-sm font-medium pb-2">{t('COMPANY_ID')} *</p>
 					<select onChange={handleChange} value={formData?.company_id} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="company_id" id="company_id">
-						<option value="">--Select Company--</option>
+						<option value="">--{t('SELECT_COMPANY')}--</option>
 						{companies.map((company) => (
 							<option key={company.id} value={company.id}>
 								{company.title}
@@ -40,22 +42,23 @@ export const CreateAiConfigModal = ({ closeModal, handleCreate }) => {
 				</label>
 			)}
 			<label key="template_name" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Template Name *</p>
-				<input name="template_name" required type="text" value={formData.template_name} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Template Name" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('TEMPLATE_NAME')} *</p>
+				<input name="template_name" required type="text" value={formData.template_name} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('TEMPLATE_NAME')} ${t('ENTER')}`} />
 			</label>
 			<label key="template_text" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Template Text *</p>
-				<textarea name="template_text" required value={formData.template_text} onChange={handleChange} className="form-input h-24 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Template Text" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('TEMPLATE_TEXT')} *</p>
+				<textarea name="template_text" required value={formData.template_text} onChange={handleChange} className="form-input h-24 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('TEMPLATE_TEXT')} ${t('ENTER')}`} />
 			</label>
 			<label key="use_openai" className="flex items-center gap-2">
 				<input name="use_openai" type="checkbox" checked={formData.use_openai} onChange={handleChange} className="form-checkbox" />
-				<p className="text-secondary text-sm font-medium">Use OpenAI</p>
+				<p className="text-secondary text-sm font-medium">{t('USE_OPENAI')}</p>
 			</label>
 		</form>
 	)
 }
 
 export const EditAiConfigModal = ({ id, closeModal, fetchAiConfig, handleUpdate }) => {
+	const { t } = useLanguageContext()
 	const { companies } = useCompanies()
 	const [formData, setFormData] = useState(null)
 	const [loading, setLoading] = useState(true)
@@ -84,7 +87,7 @@ export const EditAiConfigModal = ({ id, closeModal, fetchAiConfig, handleUpdate 
 		setFormData((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
 	}
 
-	if (loading) return <div className="text-center">Loading...</div>
+	if (loading) return <div className="text-center">{t('LOADING')}...</div>
 
 	return (
 		<form
@@ -98,9 +101,9 @@ export const EditAiConfigModal = ({ id, closeModal, fetchAiConfig, handleUpdate 
 		>
 			{getUserFromStorage()?.user?.role === 'SUPERADMIN' && (
 				<label className="flex flex-col min-w-40 flex-1">
-					<p className="text-secondary text-sm font-medium pb-2">Company Id *</p>
+					<p className="text-secondary text-sm font-medium pb-2">{t('COMPANY_ID')} *</p>
 					<select onChange={handleChange} value={formData?.company_id} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20 bg-background-light dark:bg-background-dark text-secondary " name="company_id" id="company_id">
-						<option value="">--Select Company--</option>
+						<option value="">--{t('SELECT_COMPANY')}--</option>
 						{companies.map((company) => (
 							<option key={company.id} value={company.id}>
 								{company.title}
@@ -110,22 +113,23 @@ export const EditAiConfigModal = ({ id, closeModal, fetchAiConfig, handleUpdate 
 				</label>
 			)}
 			<label key="template_name" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Template Name *</p>
-				<input name="template_name" type="text" value={formData.template_name} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Template Name" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('TEMPLATE_NAME')} *</p>
+				<input name="template_name" required type="text" value={formData.template_name} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('TEMPLATE_NAME')} ${t('ENTER')}`} />
 			</label>
 			<label key="template_text" className="flex flex-col min-w-40 flex-1">
-				<p className="text-secondary text-sm font-medium pb-2">Template Text *</p>
-				<textarea name="template_text" value={formData.template_text} onChange={handleChange} className="form-input h-24 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder="Enter Template Text" />
+				<p className="text-secondary text-sm font-medium pb-2">{t('TEMPLATE_TEXT')} *</p>
+				<textarea name="template_text" required value={formData.template_text} onChange={handleChange} className="form-input h-24 rounded-lg border border-gray-200 dark:border-white/20  bg-background-light dark:bg-background-dark text-secondary p-[15px]" placeholder={`${t('TEMPLATE_TEXT')} ${t('ENTER')}`} />
 			</label>
 			<label key="use_openai" className="flex items-center gap-2">
 				<input name="use_openai" type="checkbox" checked={formData.use_openai} onChange={handleChange} className="form-checkbox" />
-				<p className="text-secondary text-sm font-medium">Use OpenAI</p>
+				<p className="text-secondary text-sm font-medium">{t('USE_OPENAI')}</p>
 			</label>
 		</form>
 	)
 }
 
 export const DeleteAiConfigModal = ({ id, closeModal, handleDelete }) => {
+	const { t } = useLanguageContext()
 	return (
 		<form
 			onSubmit={async (e) => {
@@ -136,18 +140,19 @@ export const DeleteAiConfigModal = ({ id, closeModal, handleDelete }) => {
 			className="text-center space-y-4"
 			id="aiConfigDelete"
 		>
-			<p className="my-5">Are you sure? This action cannot be undone.</p>
+			<p className="my-5">{t('CONFIRM_DELETE')}</p>
 		</form>
 	)
 }
 
 export const AiConfigsModal = (closeModal, openModal, fetchAiConfig, handleCreate, handleUpdate, handleDelete) => {
+	const { t } = useLanguageContext()
 	const handleOpenCreate = () => {
 		openModal({
 			type: 'CREATE',
 			formId: 'aiConfigCreate',
-			title: 'Create AI Config',
-			btnTitle: 'Create',
+			title: t('CREATE_AI_CONFIG'),
+			btnTitle: t('CREATE'),
 			content: <CreateAiConfigModal closeModal={closeModal} handleCreate={handleCreate} />,
 		})
 	}
@@ -156,8 +161,8 @@ export const AiConfigsModal = (closeModal, openModal, fetchAiConfig, handleCreat
 		openModal({
 			type: 'UPDATE',
 			formId: 'aiConfigEdit',
-			title: 'Update AI Config',
-			btnTitle: 'Update',
+			title: t('UPDATE_AI_CONFIG'),
+			btnTitle: t('UPDATE'),
 			content: <EditAiConfigModal id={id} closeModal={closeModal} fetchAiConfig={fetchAiConfig} handleUpdate={handleUpdate} />,
 		})
 	}
@@ -166,8 +171,8 @@ export const AiConfigsModal = (closeModal, openModal, fetchAiConfig, handleCreat
 		openModal({
 			type: 'DELETE',
 			formId: 'aiConfigDelete',
-			title: 'Delete AI Config',
-			btnTitle: 'Delete',
+			title: t('DELETE_AI_CONFIG'),
+			btnTitle: t("DELETE"),
 			content: <DeleteAiConfigModal id={id} closeModal={closeModal} handleDelete={handleDelete} />,
 		})
 	}

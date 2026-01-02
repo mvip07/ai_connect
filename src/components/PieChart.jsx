@@ -1,11 +1,13 @@
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, } from 'chart.js';
+import { useLanguageContext } from '../context/Language';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const SentimentPieChart = ({ totals }) => {
+    const {t} = useLanguageContext()
     const data = {
-        labels: ['DM Count', 'Comment Count'],
+        labels: [t('DM_COUNT'), t('COMMENT_COUNT')],
         datasets: [
             {
                 data: totals,

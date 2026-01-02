@@ -5,8 +5,10 @@ import { useModal } from '../../components/UI/Modal'
 import MainLayout from '../../components/layout/MainLayout'
 import { UsersModal } from '../../components/UsersModal'
 import { getUserFromStorage } from '../../lib/helpers/userStore'
+import { useLanguageContext } from '../../context/Language'
 
 export default function UserDetail({ companyIdProps }) {
+    const {t} = useLanguageContext()
     const companyId = companyIdProps || getUserFromStorage()?.user?.company_id
     const { detailId } = useParams()
     const { closeModal, openModal } = useModal()
@@ -27,12 +29,12 @@ export default function UserDetail({ companyIdProps }) {
         <MainLayout>
             <div className="flex flex-wrap justify-between gap-3 items-center mb-6">
                 <div className="flex flex-col gap-1">
-                    <p className="text-secondary text-3xl font-bold leading-tight tracking-tight">User Detail</p>
-                    <p className="text-secondary/60 text-base font-normal leading-normal">Review and manage user.</p>
+                    <p className="text-secondary text-3xl font-bold leading-tight tracking-tight">{t('USER_DETAIL')}</p>
+                    <p className="text-secondary/60 text-base font-normal leading-normal">{t('USER_REVIEW_MANAGE')}</p>
                 </div>
                 <button onClick={handleOpenCreate} className="flex items-center justify-center gap-2 overflow-hidden rounded-DEFAULT h-11 px-5 bg-primary text-white text-sm font-medium leading-normal shadow-soft hover:shadow-md transition-shadow">
                     <span className="material-symbols-outlined">add</span>
-                    <span className="truncate">Add New User</span>
+                    <span className="truncate">{t('ADD_NEW_USER')}</span>
                 </button>
             </div>
             <div className="w-full rounded-lg bg-card p-6 shadow-soft-lg border border-border-color">
@@ -40,13 +42,13 @@ export default function UserDetail({ companyIdProps }) {
                     <table className="w-full text-left">
                         <thead>
                             <tr className="border-b border-border-color">
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">User</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Phone Number</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Status</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Is Super Admin</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Role</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Date</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">Actions</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('USERS')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('PHONE_NUMBER')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('STATUS')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('IS_SUPER_ADMIN')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('ROLE')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('DATE')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">{t('ACTIONS')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,10 +64,10 @@ export default function UserDetail({ companyIdProps }) {
                                 </td>
                                 <td className="px-4 py-3 text-sm text-text-secondary">{user?.phone_number}</td>
                                 <td className="px-4 py-3 text-sm text-text-secondary">
-                                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${user?.is_active ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>{user?.is_active ? 'Active' : 'InActive'}</span>
+                                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${user?.is_active ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>{user?.is_active ? t("ACTIVE") : t("INACTIVE")}</span>
                                 </td>
                                 <td className="px-4 py-3 text-sm text-text-secondary">
-                                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${user?.is_superadmin ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>{user?.is_superadmin ? 'SuperAdmin' : 'Not SuperAdmin'}</span>
+                                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${user?.is_superadmin ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>{user?.is_superadmin ? t('SUPER_ADMIN') : t('NOT_SUPER_ADMIN')}</span>
                                 </td>
                                 <td className="px-4 py-3 text-sm font-medium text-secondary/80">{user?.role}</td>
                                 <td className="px-4 py-3 text-sm text-secondary/60 text-nowrap">{user?.created_at}</td>

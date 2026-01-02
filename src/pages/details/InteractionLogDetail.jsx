@@ -5,8 +5,10 @@ import { useModal } from '../../components/UI/Modal'
 import MainLayout from '../../components/layout/MainLayout'
 import { InteractionLogsModal } from '../../components/InteractionModal'
 import { getUserFromStorage } from '../../lib/helpers/userStore'
+import { useLanguageContext } from '../../context/Language'
 
 export default function InteractionLogDetail({ companyIdProps }) {
+    const { t } = useLanguageContext()
     const companyId = companyIdProps || getUserFromStorage()?.user?.company_id
     const { detailId } = useParams()
     const { closeModal, openModal } = useModal()
@@ -36,13 +38,13 @@ export default function InteractionLogDetail({ companyIdProps }) {
                     <table className="w-full text-left">
                         <thead>
                             <tr className="border-b border-border-color">
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">User Instagram ID</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Username</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Interaction Type</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Message</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">AI Response</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Created At</th>
-                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">Actions</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('USER_INSTAGRAM_ID')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('USERNAME')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('INTERACTION_TYPE')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('MESSAGE')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('AI_RESPONSE')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('CREATED_AT')}</th>
+                                <th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">{t('ACTIONS')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,7 +62,7 @@ export default function InteractionLogDetail({ companyIdProps }) {
                                                 <span className="material-symbols-outlined text-xl">delete</span>
                                             </button>
                                         )}
-                                        {getUserFromStorage()?.user?.role !== 'SUPERADMIN' && 'No Action'}
+                                        {getUserFromStorage()?.user?.role !== 'SUPERADMIN' && t("NO_ACTION")}
                                     </div>
                                 </td>
                             </tr>

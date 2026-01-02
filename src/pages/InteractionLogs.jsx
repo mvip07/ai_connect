@@ -1,12 +1,14 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useModal } from '../components/UI/Modal'
 import MainLayout from '../components/layout/MainLayout'
 import { InteractionLogsModal } from '../components/InteractionModal'
 import { getUserFromStorage } from '../lib/helpers/userStore'
 import { useInteractionLogs } from '../hooks/useInteractionLogs'
-import { Link } from 'react-router-dom'
+import { useLanguageContext } from '../context/Language'
 
 export default function InteractionLogs({ companyIdProps }) {
+	const { t } = useLanguageContext()
 	const companyId = companyIdProps || getUserFromStorage()?.user?.company_id
 	const { openModal, closeModal } = useModal()
 	const { interactionLogs, handleDelete } = useInteractionLogs(companyId)
@@ -93,8 +95,8 @@ export default function InteractionLogs({ companyIdProps }) {
 		<MainLayout>
 			<div className="flex flex-wrap items-center justify-between gap-4 mb-6">
 				<div className="flex flex-col gap-2">
-					<p className="text-secondary text-3xl font-bold leading-tight">Interaction Logs</p>
-					<p className="text-text-secondary text-base font-normal leading-normal">Review and manage interaction logs.</p>
+					<p className="text-secondary text-3xl font-bold leading-tight">{t('INTERACTION_LOGS')}</p>
+					<p className="text-text-secondary text-base font-normal leading-normal">{t('REVIEW_MANAGE_INTERACTION_LOGS')}</p>
 				</div>
 			</div>
 			<div className="w-full rounded-lg bg-card p-6 shadow-soft-lg border border-border-color">
@@ -103,7 +105,7 @@ export default function InteractionLogs({ companyIdProps }) {
 						<span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">search</span>
 						<input
 							className="w-full h-10 pl-10 pr-4 rounded-DEFAULT border-border-color focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
-							placeholder="Search by username or type..."
+							placeholder={t('SEARCH_USERNAME_TYPE') + '...'}
 							type="text"
 							value={searchQuery}
 							onChange={(e) => {
@@ -122,13 +124,13 @@ export default function InteractionLogs({ companyIdProps }) {
 					<table className="w-full text-left">
 						<thead>
 							<tr className="border-b border-border-color">
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">User Instagram ID</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Username</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Interaction Type</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Message</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">AI Response</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">Created At</th>
-								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">Actions</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('USER_INSTAGRAM_ID')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('USERNAME')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('INTERACTION_TYPE')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('MESSAGE')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('AI Response')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap">{t('CREATED_AT')}</th>
+								<th className="px-4 py-3 text-sm font-medium text-text-secondary text-nowrap text-right">{t('ACTIONS')}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -151,7 +153,7 @@ export default function InteractionLogs({ companyIdProps }) {
 													<span className="material-symbols-outlined text-xl">delete</span>
 												</button>
 											)}
-											{getUserFromStorage()?.user?.role !== 'SUPERADMIN' && 'No Action'}
+											{getUserFromStorage()?.user?.role !== 'SUPERADMIN' && t('NO_ACTION')}
 										</div>
 									</td>
 								</tr>

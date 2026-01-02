@@ -1,16 +1,18 @@
 import MainLayout from '../components/layout/MainLayout'
+import { useLanguageContext } from '../context/Language'
 
 export default function OPerator() {
+	const { t } = useLanguageContext()
 	return (
 		<MainLayout>
 			<div className="flex flex-wrap justify-between gap-3 items-center mb-6">
 				<div className="flex flex-col gap-1">
-					<p className="text-secondary text-3xl font-bold leading-tight tracking-tight">Dashboard</p>
-					<p className="text-secondary/60 text-base font-normal leading-normal">Review and manage AI-powered conversations.</p>
+					<p className="text-secondary text-3xl font-bold leading-tight tracking-tight">{t('DASHBOARD_OVERVIEW')}</p>
+					<p className="text-secondary/60 text-base font-normal leading-normal">{t('AI_CONVERSATION_REVIEW')}</p>
 				</div>
 				<button className="flex cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 bg-primary text-white gap-2 text-sm font-bold leading-normal tracking-wide min-w-0 px-5 shadow-soft-button hover:bg-primary/90 transition-all">
 					<span className="material-symbols-outlined fill text-xl">fact_check</span>
-					<span className="truncate">Client</span>
+					<span className="truncate">{t('CLIENT')}</span>
 				</button>
 			</div>
 			<div className="bg-white rounded-xl shadow-soft border border-border-light overflow-hidden">
@@ -18,13 +20,13 @@ export default function OPerator() {
 					<table className="w-full text-left">
 						<thead className="bg-secondary/5">
 							<tr>
-								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider w-1/4">User</th>
-								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider w-1/4">Message Preview</th>
-								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider w-1/4">AI Response</th>
-								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider">Status</th>
-								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider text-center">Confidence</th>
-								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider">Date</th>
-								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider">Actions</th>
+								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider w-1/4">{t('USERS')}</th>
+								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider w-1/4">{t('MESSAGE_PREVIEW')}</th>
+								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider w-1/4">{t('AI_RESPONSE')}</th>
+								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider">{t('STATUS')}</th>
+								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider text-center">{t('CONFIDENCE')}</th>
+								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider">{t('DATE')}</th>
+								<th className="p-4 text-xs font-semibold text-secondary/60 uppercase tracking-wider">{t('ACTIONS')}</th>
 							</tr>
 						</thead>
 						<tbody className="divide-y divide-border-light">
