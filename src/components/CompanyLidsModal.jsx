@@ -29,7 +29,7 @@ export const EditCompanyLidModal = ({ id, closeModal, fetchCompanyLid, handleUpd
         <form
             onSubmit={async (e) => {
                 e.preventDefault()
-                await handleUpdate(id, { status: formData.status })
+                await handleUpdate(id, formData)
                 closeModal()
             }}
             id="companyLidEdit"
