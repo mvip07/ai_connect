@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react'
 import { notify } from '../lib/toastify'
 import { languageService } from '../services/languages.service'
 import { handleApiError } from '../lib/helpers/handleApiError'
-import { getUserFromStorage } from '../lib/helpers/userStore'
 
 export const useLanguages = () => {
     const [loading, setLoading] = useState(false)
