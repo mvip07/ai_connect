@@ -66,17 +66,17 @@ export default function Campaigns({ companyIdProps }) {
 
 		for (let i = startPage; i <= endPage; i++) {
 			links.push(
-				<a
+				<Link
 					key={i}
 					className={`text-sm font-${i === currentPage ? 'bold' : 'normal'} leading-normal flex size-9 items-center justify-center rounded-DEFAULT ${i === currentPage ? 'text-white bg-primary' : 'text-text-secondary hover:bg-gray-100 transition-colors'}`}
-					href="#"
+					to="#"
 					onClick={(e) => {
 						e.preventDefault()
 						setCurrentPage(i)
 					}}
 				>
 					{i}
-				</a>
+				</Link>
 			)
 		}
 
@@ -176,27 +176,27 @@ export default function Campaigns({ companyIdProps }) {
 						Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} results
 					</p>
 					<div className="flex items-center justify-center">
-						<a
+						<Link
 							className={`flex size-9 items-center justify-center rounded-DEFAULT text-text-secondary ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100 transition-colors'}`}
-							href="#"
+							to="#"
 							onClick={(e) => {
 								e.preventDefault()
 								if (currentPage > 1) setCurrentPage(currentPage - 1)
 							}}
 						>
 							<span className="material-symbols-outlined text-lg">chevron_left</span>
-						</a>
+						</Link>
 						{getPaginationLinks()}
-						<a
+						<Link
 							className={`flex size-9 items-center justify-center rounded-DEFAULT text-text-secondary ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100 transition-colors'}`}
-							href="#"
+							to="#"
 							onClick={(e) => {
 								e.preventDefault()
 								if (currentPage < totalPages) setCurrentPage(currentPage + 1)
 							}}
 						>
 							<span className="material-symbols-outlined text-lg">chevron_right</span>
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>

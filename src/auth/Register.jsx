@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useAuthRedirect } from '../hooks/useAuthRedirect'
 
 export default function Register() {
@@ -55,13 +56,13 @@ export default function Register() {
 											<input className="form-checkbox h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary/30" id="terms-checkbox" type="checkbox" />
 											<label className="text-sm text-[#1D1F23]/80" htmlFor="terms-checkbox">
 												I agree to the{' '}
-												<a className="font-medium text-primary hover:underline" href="#">
+												<Link className="font-medium text-primary hover:underline" to="#">
 													Terms and Conditions
-												</a>{' '}
+												</Link>{' '}
 												and{' '}
-												<a className="font-medium text-primary hover:underline" href="#">
+												<Link className="font-medium text-primary hover:underline" to="#">
 													Privacy Policy
-												</a>
+												</Link>
 												.
 											</label>
 										</div>
@@ -72,9 +73,9 @@ export default function Register() {
 									<div className="text-center">
 										<p className="text-sm text-[#1D1F23]/60">
 											Already have an account?{' '}
-											<a className="font-medium text-primary hover:underline" href="#" style={{ color: '#B8D7FF' }}>
+											<Link className="font-medium text-primary hover:underline" to="#" style={{ color: '#B8D7FF' }}>
 												Log In
-											</a>
+											</Link>
 										</p>
 									</div>
 								</div>

@@ -4,6 +4,7 @@ import { FileUploader } from '../components/UI/UploadImageFirebase'
 import { userService } from '../services/user.service'
 import { notify } from '../lib/toastify'
 import { useLanguageContext } from '../context/Language'
+import { Link } from 'react-router-dom'
 
 export default function Settings() {
 	const { t, lang, setLang } = useLanguageContext()
@@ -71,9 +72,9 @@ export default function Settings() {
 										</label>
 										<div className="relative">
 											<input className="w-full rounded-lg border-border-color bg-gray-50 text-secondary/60 shadow-sm" id="tel" type="tel" value={form.phone_number} onChange={(e) => setForm({ ...form, phone_number: e.target.value })} />
-											<a className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-primary hover:underline" href="#">
+											<Link className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-primary hover:underline" to="#">
 												{t('CHANGE')}
-											</a>
+											</Link>
 										</div>
 									</div>
 									<div>

@@ -3,6 +3,7 @@ import { FileText, ImagePlus, Loader2, Video } from 'lucide-react'
 import { uploadFileToFirebase } from '../../lib/helpers/uploadImage'
 import { notify } from '../../lib/toastify'
 import { useLanguageContext } from '../../context/Language'
+import { Link } from 'react-router-dom'
 
 export const FileUploader = ({ fileUrl, folder, type = 'any', onChange }) => {
 	const {t} = useLanguageContext()
@@ -49,9 +50,9 @@ export const FileUploader = ({ fileUrl, folder, type = 'any', onChange }) => {
 				<div className="w-full flex items-center justify-between border p-3 rounded-xl bg-gray-50">
 					<div className="flex items-center gap-2">
 						<FileText className="text-blue-600" />
-						<a href={fileUrl} target="_blank" className="text-blue-600 underline text-sm" rel="noopener noreferrer">
+						<Link to={fileUrl} target="_blank" className="text-blue-600 underline text-sm" rel="noopener noreferrer">
 							{t('VIEW_PDF')}
-						</a>
+						</Link>
 					</div>
 					<button onClick={() => fileInputRef.current?.click()} type="button" className="text-sm text-gray-600 hover:text-blue-600">
 						{t('CHANGE')}
