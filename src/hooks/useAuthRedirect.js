@@ -18,5 +18,5 @@ export const useAuthRedirect = () => {
 			
 			router('/login')
 		}
-	}, [])
+	}, [router])
 }

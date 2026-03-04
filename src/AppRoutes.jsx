@@ -33,7 +33,7 @@ const AppRoutes = () => {
 				setLanguages(res.data.result)
 			})
 			.catch(console.error)
-	}, [])
+	}, [setLanguages])
 
 	return (
 		<>

@@ -23,7 +23,7 @@ export const useInteractionLogs = (comapnyId) => {
 		} finally {
 			setLoading(false)
 		}
-	}, [])
+	}, [comapnyId])
 
 	const fetchInteractionLog = useCallback(async (id) => {
 		setLoading(true)

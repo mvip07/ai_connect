@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react'
 import { notify } from '../lib/toastify'
 import { userService } from '../services/user.service'
 import { handleApiError } from '../lib/helpers/handleApiError'
-import { getUserFromStorage } from '../lib/helpers/userStore'
 
 export const useUsers = (comapnyId) => {
 	const [loading, setLoading] = useState(false)
@@ -23,7 +22,7 @@ export const useUsers = (comapnyId) => {
 		} finally {
 			setLoading(false)
 		}
-	}, [getUserFromStorage])
+	}, [comapnyId])
 
 	const fetchUser = useCallback(async (id) => {
 		setLoading(true)

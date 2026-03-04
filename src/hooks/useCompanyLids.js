@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react'
 import { notify } from '../lib/toastify'
 import { companyLidService } from '../services/companylid.service'
 import { handleApiError } from '../lib/helpers/handleApiError'
-import { getUserFromStorage } from '../lib/helpers/userStore'
 
 export const useCompanyLids = (companyId) => {
 	const [loading, setLoading] = useState(false)

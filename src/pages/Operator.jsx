@@ -33,7 +33,7 @@ export default function OPerator() {
 							<tr className="hover:bg-accent/20 transition-colors">
 								<td className="p-5 align-top">
 									<div className="flex items-center gap-3">
-										<img className="size-10 rounded-full" data-alt="User avatar for Jane Doe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-u78B77H_pIme5RlKh8NthyPvcq7jZImMyJeg8_xLwBjN2qpCD959MbzKqltQkk7zRyPrDC2k9KGjxUkh4oSkILbHBmsIxd9m2Vgt7u-OiNVNfVuSgeuzg6Z5aVEEoxilgLDNim1xzWovgvKxQgYIeVjiO8dmftv0fk82Bqp6BYA5dccWV6kP7RuL8pIcxfQYIFYcehX2jODStxPS7LiONHrNNuPx7dqoZHwPaPpCDPos6Y8SQK08-MICkN7rrs39-ZRADxICqHQu" />
+										<img className="size-10 rounded-full" alt="User avatar for Jane Doe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-u78B77H_pIme5RlKh8NthyPvcq7jZImMyJeg8_xLwBjN2qpCD959MbzKqltQkk7zRyPrDC2k9KGjxUkh4oSkILbHBmsIxd9m2Vgt7u-OiNVNfVuSgeuzg6Z5aVEEoxilgLDNim1xzWovgvKxQgYIeVjiO8dmftv0fk82Bqp6BYA5dccWV6kP7RuL8pIcxfQYIFYcehX2jODStxPS7LiONHrNNuPx7dqoZHwPaPpCDPos6Y8SQK08-MICkN7rrs39-ZRADxICqHQu" />
 										<div className="flex flex-col">
 											<p className="font-semibold text-secondary">Jane Doe</p>
 											<p className="text-sm text-secondary/60">@janedoe_designs</p>
@@ -61,7 +61,7 @@ export default function OPerator() {
 							<tr className="hover:bg-accent/20 transition-colors">
 								<td className="p-5 align-top">
 									<div className="flex items-center gap-3">
-										<img className="size-10 rounded-full" data-alt="User avatar for John Smith" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD00BPc0Jcb8_yEAwCS1SrMfzH4SQ-UMcQkjjKA_IQMK9PSbBpOJx72yFt8I52JGbJG3u8vYpnT8w9EK2xeXWVYanMj4GWFEf63E7x-d83FAWoYYgE3Ind_Z9ebsQyhdqdN4qW-pMf-rN-tTAGTkujxurjIVXph1RRePQi7OutSsVa_-K_05GnfZQV5-_0_aIMiBgGfMQ1cUNOVvq1wIbLjqE9a7-ILnF-5_7ZVx02t_CQPJVu8N2TLkE6wYucUfZjpcc3KgK9-aQT9" />
+										<img className="size-10 rounded-full" alt="User avatar for John Smith" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD00BPc0Jcb8_yEAwCS1SrMfzH4SQ-UMcQkjjKA_IQMK9PSbBpOJx72yFt8I52JGbJG3u8vYpnT8w9EK2xeXWVYanMj4GWFEf63E7x-d83FAWoYYgE3Ind_Z9ebsQyhdqdN4qW-pMf-rN-tTAGTkujxurjIVXph1RRePQi7OutSsVa_-K_05GnfZQV5-_0_aIMiBgGfMQ1cUNOVvq1wIbLjqE9a7-ILnF-5_7ZVx02t_CQPJVu8N2TLkE6wYucUfZjpcc3KgK9-aQT9" />
 										<div className="flex flex-col">
 											<p className="font-semibold text-secondary">John Smith</p>
 											<p className="text-sm text-secondary/60">@johnsmith</p>
@@ -89,7 +89,7 @@ export default function OPerator() {
 							<tr className="hover:bg-accent/20 transition-colors">
 								<td className="p-5 align-top">
 									<div className="flex items-center gap-3">
-										<img className="size-10 rounded-full" data-alt="User avatar for Emily White" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ6Yd9HLT6lyPo0PeHRhCHcOp8CLf541PKIqrUclkEOcASJ6VZ7bFijV-tQEvpLJyg03ts5z3kFobLEhRVWP07HuvwwwGj6YLf6nsVdg8ywWTzq9ODU-01NoNLJVsev84mTNsy9peSfHKQmWt8uWT0IHIYmpIXdN7oOWIJbp6AKvo8GDKk8Rhx8Gv6PX9K_OzCAlP6yMrv60SRdes-Gz1AlLidewLKavcdJzUfeONfuzWUwokRtRPktcUNBD2_VPxhukDP-g8jQcCV" />
+										<img className="size-10 rounded-full" alt="User avatar for Emily White" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ6Yd9HLT6lyPo0PeHRhCHcOp8CLf541PKIqrUclkEOcASJ6VZ7bFijV-tQEvpLJyg03ts5z3kFobLEhRVWP07HuvwwwGj6YLf6nsVdg8ywWTzq9ODU-01NoNLJVsev84mTNsy9peSfHKQmWt8uWT0IHIYmpIXdN7oOWIJbp6AKvo8GDKk8Rhx8Gv6PX9K_OzCAlP6yMrv60SRdes-Gz1AlLidewLKavcdJzUfeONfuzWUwokRtRPktcUNBD2_VPxhukDP-g8jQcCV" />
 										<div className="flex flex-col">
 											<p className="font-semibold text-secondary">Emily White</p>
 											<p className="text-sm text-secondary/60">@emilyw</p>
@@ -117,7 +117,7 @@ export default function OPerator() {
 							<tr className="hover:bg-accent/20 transition-colors">
 								<td className="p-5 align-top">
 									<div className="flex items-center gap-3">
-										<img className="size-10 rounded-full" data-alt="User avatar for Sarah Brown" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVKmR-ESNz8gej2V6dW02IZ7lVCsHTLwhzU2qaZcviYUMyvvXoAh_Jjkf_zN1wVvtdOgsblPK20_x32Jyz4kTCB-HBgKixKklGr6zbrRGTyInlTuTE_YzG3xnZ3HxJe6WeZrau6gpLqRygnWNk-c-ZZ5EYy0SEJ3MfDijrqeXOqWREXW4APw4VSegp2Kx1_dpELpwRIs7wePzmCJssxHc3QYZLAvh5kCVQmt3LBH7fFSxYGltsoLBO6aJYd65VzRNRT2OV2YY50sKx" />
+										<img className="size-10 rounded-full" alt="User avatar for Sarah Brown" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVKmR-ESNz8gej2V6dW02IZ7lVCsHTLwhzU2qaZcviYUMyvvXoAh_Jjkf_zN1wVvtdOgsblPK20_x32Jyz4kTCB-HBgKixKklGr6zbrRGTyInlTuTE_YzG3xnZ3HxJe6WeZrau6gpLqRygnWNk-c-ZZ5EYy0SEJ3MfDijrqeXOqWREXW4APw4VSegp2Kx1_dpELpwRIs7wePzmCJssxHc3QYZLAvh5kCVQmt3LBH7fFSxYGltsoLBO6aJYd65VzRNRT2OV2YY50sKx" />
 										<div className="flex flex-col">
 											<p className="font-semibold text-secondary">Sarah Brown</p>
 											<p className="text-sm text-secondary/60">@sarahb_creative</p>

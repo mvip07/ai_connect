@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react'
 import { notify } from '../lib/toastify'
 import { aiConfigService } from '../services/aiconfigs.service'
 import { handleApiError } from '../lib/helpers/handleApiError'
-import { getUserFromStorage } from '../lib/helpers/userStore'
 
 export const useAiConfigs = (companyId) => {
 	const [loading, setLoading] = useState(false)
@@ -22,7 +21,7 @@ export const useAiConfigs = (companyId) => {
 		} finally {
 			setLoading(false)
 		}
-	}, [])
+	}, [companyId])
 
 	const fetchAiConfig = useCallback(async (id) => {
 		setLoading(true)

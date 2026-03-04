@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { clearToken, getUserFromStorage } from '../lib/helpers/userStore'
 import { companyService } from '../services/companies.service'
@@ -59,17 +59,20 @@ const SideBar = React.memo(function SideBar({ active, userData }) {
 			}
 		}
 		load()
-	}, [])
+	}, [userData?.company_id])
 
 	const role = userData?.role || getUserFromStorage()?.user?.role
-	const allowedPages = ROLE_PAGES[role] || []
+
+	const allowedPages = useMemo(() => {
+		return ROLE_PAGES[role] || []
+	}, [role])
 
 	useEffect(() => {
 		const allowed = allowedPages.some((p) => matchRoute(pathname, p))
 		if (!allowed) {
 			navigate(allowedPages[0] || '/', { replace: true })
 		}
-	}, [pathname, allowedPages, navigate])
+	}, [pathname, navigate, allowedPages])
 
 	const filteredItems = SIDEBAR_ITEMS.filter((item) => allowedPages.some((p) => matchRoute(item.path, p)))
 

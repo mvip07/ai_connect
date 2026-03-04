@@ -23,7 +23,7 @@ export const useCampaigns = (companyId) => {
 		} finally {
 			setLoading(false)
 		}
-	}, [])
+	}, [companyId])
 
 	const fetchCampaign = useCallback(async (id) => {
 		setLoading(true)

@@ -19,11 +19,11 @@ export default function InteractionLogDetail({ companyIdProps }) {
 
     useEffect(() => {
         const load = async () => {
-            const res = await fetchInteractionLog(detailId) // Assume this method is added to fetch single log
+            const res = await fetchInteractionLog(detailId)
             setLog(res)
         }
         load()
-    }, [detailId])
+    }, [detailId, fetchInteractionLog])
 
     return (
         <MainLayout>

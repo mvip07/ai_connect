@@ -30,7 +30,7 @@ const Header = React.memo(function Header({ active, toggleSideBar, userData }) {
 						<p className="text-sm">{userData.role}</p>
 					</div>
 					<div onClick={() => navigate('/settings')} className="bg-center bg-no-repeat cursor-pointer aspect-square bg-cover rounded-full size-12 ring-2 ring-white" data-alt="User profile avatar image">
-						<img className="w-full h-full rounded-full" src={userData.pic_path} alt="User Image" />
+						<img className="w-full h-full rounded-full" src={userData.pic_path} alt="User profile avatar" />
 					</div>
 				</div>
 			</div>

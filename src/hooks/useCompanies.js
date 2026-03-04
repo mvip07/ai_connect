@@ -23,7 +23,7 @@ export const useCompanies = () => {
 		} finally {
 			setLoading(false)
 		}
-	}, [getUserFromStorage])
+	}, [])
 
 	const fetchCompany = useCallback(async (id) => {
 		setLoading(true)
