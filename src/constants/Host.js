@@ -1,1 +1,1 @@
-export const HOST = "http://103-125-219-234.as-ty-cloud-xip.com/apidocs"
+export const HOST = "http://103-125-219-234.as-ty-cloud-xip.com"
