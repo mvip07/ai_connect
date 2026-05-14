@@ -61,7 +61,7 @@ export const CreateCompanyModal = ({ closeModal, handleCreate }) => {
 
 			<label className="flex flex-col">
 				<p className="text-secondary text-sm font-medium pb-2">{t('INSTAGRAM_ID')} *</p>
-				<input name="instagram_verify_token" required value={formData.instagram_id} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200" placeholder={`${t('INSTAGRAM_ID')} ${t('ENTER')}`} />
+				<input name="instagram_id" required value={formData.instagram_id} onChange={handleChange} className="form-input h-12 rounded-lg border border-gray-200" placeholder={`${t('INSTAGRAM_ID')} ${t('ENTER')}`} />
 			</label>
 
 			<label className="flex flex-col">
